@@ -1,0 +1,34 @@
+# Build artifacts
+*.elf
+*.bin
+*.map
+*.merged.bin
+*.partitions.bin
+
+# Arduino IDE temp
+build/
+*.d
+*.o
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+*.code-workspace
+
+# Logs
+*.log
+*.csv
+
+# Archives
+*.zip
+*.rar
+*.7z
+
+# Temporary
+*.tmp
+*.bak
+~*
