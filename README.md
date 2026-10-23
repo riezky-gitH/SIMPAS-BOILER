@@ -66,6 +66,16 @@ SIMPAS-BOILER/
 ├── Docs/
 │   ├── GUIDEBOOK.md                 # Buku panduan lengkap proyek (7 BAB)
 │   └── HARDWARE_PINOUT.md           # Pemetaan pin, library, & konfigurasi upload
+├── Hardware/
+│   ├── PCB_KiCad/                   # Desain skematik & layout PCB KiCad
+│   │   ├── esp32s3 wmlta.kicad_pro
+│   │   ├── esp32s3 wmlta.kicad_sch
+│   │   └── esp32s3 wmlta.kicad_pcb
+│   ├── Fabrication/                 # Berkas PDF jalur cetak tembaga (Bottom Copper)
+│   │   ├── esp32s3 wmlta-B_Cu.pdf
+│   │   └── cetak pcb wmlta zone area.pdf
+│   └── 3D_Render/                   # Gambar visualisasi 3D PCB hasil desain
+│       └── pcb_3d_preview.jpg
 ├── Tools/
 │   ├── dashboard_mqtt_bridge.py     # Python MQTT-to-CSV data logger bridge
 │   └── dashboard_scada_boiler.html  # Dashboard SCADA standalone (buka langsung di browser)

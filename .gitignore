@@ -32,3 +32,9 @@ desktop.ini
 *.tmp
 *.bak
 ~*
+
+# KiCad CAD files
+*-backups/
+*.kicad_prl
+*.lck
+fp-info-cache
