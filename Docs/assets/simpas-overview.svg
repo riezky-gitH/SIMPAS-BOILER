@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="400" viewBox="0 0 1280 400" role="img" aria-labelledby="title desc">
+  <title id="title">SIMPAS Boiler dengan satu master dan dua slave</title>
+  <desc id="desc">ESP32 S3 N16R8 melayani dashboard dan riwayat. Dua Arduino Nano masing-masing menjalankan pembacaan sensor dan proteksi lokal melalui UART terpisah.</desc>
+  <rect width="1280" height="400" rx="8" fill="#343436"/>
+  <path d="M8 0H16V400H8Q0 400 0 392V8Q0 0 8 0Z" fill="#800020"/>
+  <g font-family="Arial, Helvetica, sans-serif">
+    <text x="60" y="66" fill="#bababe" font-size="14" letter-spacing="2">SIMPAS BOILER / FIRMWARE V3</text>
+    <text x="60" y="128" fill="#fafaf8" font-size="40" font-weight="700">Monitoring dan kendali</text>
+    <text x="60" y="178" fill="#fafaf8" font-size="40" font-weight="700">dua boiler</text>
+    <path d="M60 209H532" stroke="#646468"/>
+    <text x="60" y="244" fill="#dedee0" font-size="18">Proteksi lokal · Dashboard SCADA · Riwayat offline</text>
+    <text x="60" y="318" fill="#fafaf8" font-size="23" font-weight="700">16 MiB</text>
+    <text x="60" y="346" fill="#bababe" font-size="14">Flash master</text>
+    <text x="230" y="318" fill="#fafaf8" font-size="23" font-weight="700">8 MiB</text>
+    <text x="230" y="346" fill="#bababe" font-size="14">OPI PSRAM</text>
+    <text x="400" y="318" fill="#fafaf8" font-size="23" font-weight="700">2 × Nano</text>
+    <text x="400" y="346" fill="#bababe" font-size="14">Pengendali lokal</text>
+    <rect x="760" y="61" width="342" height="95" rx="4" fill="#fafaf8"/>
+    <rect x="760" y="61" width="7" height="95" fill="#800020"/>
+    <text x="931" y="91" text-anchor="middle" fill="#727274" font-size="13" letter-spacing="1.5">MASTER</text>
+    <text x="931" y="121" text-anchor="middle" fill="#292a2d" font-size="24" font-weight="700">ESP32-S3 N16R8</text>
+    <path d="M931 156V193H790V247M931 193H1072V247" fill="none" stroke="#a9a9ad" stroke-width="2"/>
+    <path d="m785 238 5 9 5-9m272 0 5 9 5-9" fill="none" stroke="#a9a9ad" stroke-width="2"/>
+    <text x="790" y="218" text-anchor="middle" fill="#c8c8cb" font-size="13">UART 1</text>
+    <text x="1072" y="218" text-anchor="middle" fill="#c8c8cb" font-size="13">UART 2</text>
+    <rect x="670" y="247" width="240" height="92" rx="4" fill="#48484c" stroke="#8f9092"/>
+    <rect x="952" y="247" width="240" height="92" rx="4" fill="#48484c" stroke="#8f9092"/>
+    <text x="790" y="278" text-anchor="middle" fill="#fafaf8" font-size="21" font-weight="700">Nano 01</text>
+    <text x="1072" y="278" text-anchor="middle" fill="#fafaf8" font-size="21" font-weight="700">Nano 02</text>
+    <text x="790" y="308" text-anchor="middle" fill="#d1d1d4" font-size="15">Sensor · Proteksi · Relay</text>
+    <text x="1072" y="308" text-anchor="middle" fill="#d1d1d4" font-size="15">Sensor · Proteksi · Relay</text>
+    <text x="931" y="371" text-anchor="middle" fill="#b5b5b9" font-size="13">9600 8N1 · CRC16 · Command / Reply / Broadcast</text>
+  </g>
+</svg>

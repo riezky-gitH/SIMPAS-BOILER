@@ -1,229 +1,157 @@
-# SIMPAS-BOILER
-## Sistem Monitoring & Proteksi Automatis Solenoid Boiler
+<!-- GUIDEBOOK_LINK: ganti #guidebook-proyek dengan URL yang akan diberikan pemilik proyek. -->
+> 📖 **[Guidebook proyek](#guidebook-proyek)** — tautan guidebook baru akan ditambahkan di sini.
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Platform-ESP32--S3-blue?style=for-the-badge&logo=espressif" alt="ESP32-S3"/>
-  <img src="https://img.shields.io/badge/Platform-Arduino%20Nano-teal?style=for-the-badge&logo=arduino" alt="Arduino Nano"/>
-  <img src="https://img.shields.io/badge/Architecture-DCS%20%2F%20SCADA-orange?style=for-the-badge" alt="DCS/SCADA"/>
-  <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="MIT License"/>
-</p>
+# SIMPAS BOILER
 
-Sistem kendali terdistribusi (*Distributed Control System / DCS*) dan akuisisi data (*SCADA*) untuk monitoring tekanan & suhu dengan kontrol solenoid otomatis pada **Boiler PLTU** (Pembangkit Listrik Tenaga Uap).
+**Sistem Monitoring & Proteksi Automatis Solenoid Boiler**
 
-> **Mata Kuliah:** Workshop Mikrokontroler Lanjut dan Teknik Antarmuka (WMLTA) — Semester 5
+Proyek Mikrokontroler Lanjut · Politeknik Elektronika Negeri Surabaya
 
----
+![Arsitektur SIMPAS dengan satu ESP32 S3 dan dua Arduino Nano](Docs/assets/simpas-overview.svg)
 
-## Arsitektur Sistem
+[![Checks](https://github.com/riezky-gitH/SIMPAS-BOILER/actions/workflows/checks.yml/badge.svg)](https://github.com/riezky-gitH/SIMPAS-BOILER/actions/workflows/checks.yml)
+![Firmware v3](https://img.shields.io/badge/Firmware-v3-800020?style=flat-square)
+![ESP32 S3 N16R8](https://img.shields.io/badge/ESP32--S3-N16R8-4B4C4F?style=flat-square)
+![Arduino Nano](https://img.shields.io/badge/Slave-2%C3%97%20Arduino%20Nano-68696C?style=flat-square)
+[![MIT](https://img.shields.io/badge/License-MIT-8F9092?style=flat-square)](LICENSE)
 
-```
-+-----------------------------------------------------------------------------+
-|                    TIER 3: WEB SCADA DASHBOARD                              |
-|  Browser Laptop / Smartphone via WiFi AP (http://192.168.4.1)               |
-+------------------------------------+----------------------------------------+
-                                     |  WiFi Hotspot (802.11 b/g/n)
-+------------------------------------v----------------------------------------+
-|                TIER 2: EDGE GATEWAY & CONCENTRATOR                          |
-|                ESP32-S3 DevKitC-1 (N16R8)                                   |
-|  - Layar TFT 1.47" ST7789 SPI (40 MHz, Zero-Flicker)                       |
-|  - Dual Hardware UART Hub                                                   |
-|  - WiFi AP Standalone + MQTT Gateway                                        |
-|  - Local Historian (16 MB Flash / 8 MB OPI PSRAM)                           |
-+----------------+-------------------------------+----------------------------+
-                 | UART1 (via R-divider)          | UART2 (via R-divider)
-+----------------v--------------+  +--------------v--------------------------+
-|   TIER 1: SLAVE 1             |  |   TIER 1: SLAVE 2                      |
-|   Arduino Nano (Chamber 1)    |  |   Arduino Nano (Chamber 2)             |
-| - MAX6675 Thermocouple K-Type |  | - MAX6675 Thermocouple K-Type          |
-| - Pressure Transmitter 0-10 B |  | - Pressure Transmitter 0-10 Bar        |
-| - Relay Solenoid Valve (A-LOW)|  | - Relay Solenoid Valve (Active-LOW)     |
-| - Buzzer + LED + LCD 16x2 I2C |  | - Buzzer + LED + LCD 16x2 I2C          |
-+-------------------------------+  +-----------------------------------------+
-```
+SIMPAS mengawasi tekanan dan suhu pada **dua boiler** melalui ESP32-S3 sebagai master dan dua Arduino Nano sebagai pengendali lokal. Masing-masing slave membaca sensor dan menjalankan proteksi; master menyediakan dashboard SCADA, TFT, pengiriman perintah, serta riwayat yang dapat diakses tanpa internet.
 
-### Prinsip Desain Utama
-- **Autonomous Safety**: Setiap Slave Arduino Nano mengambil keputusan keselamatan secara independen (250 ms loop). Jika kabel UART ke Master putus, Slave tetap membuka katup purge dan membunyikan alarm secara mandiri.
-- **Prioritas Aktuator**: `ALARM (otomatis) > MANUAL PURGE > TUTUP`. Katup tidak dapat dipaksa tutup selama kondisi bahaya masih berlangsung.
-- **Hysteresis Anti-Chattering**: Tekanan reset di `Pth - 0.2 Bar`, suhu reset di `Tth - 3°C`.
-- **Fail-Safe Sensor Putus**: Termokopel terlepas → pembacaan otomatis `999.9°C` → katup terbuka + alarm menyala.
+**[Panduan pengguna](Docs/PANDUAN_PENGGUNA_SINGKAT.md)** · **[Pinout](Docs/HARDWARE_PINOUT.md)** · **[Build & konfigurasi](Docs/GUIDEBOOK.md#3-dependensi-dan-build)** · **[Implementasi](Docs/IMPLEMENTATION_V3.md)**
 
----
+## Guidebook proyek
 
-## Struktur Repository
+Tautan guidebook baru menyusul dari pemilik proyek. Tempat tautannya sudah disiapkan di **bagian paling atas README**.
 
-```
-SIMPAS-BOILER/
-├── Firmware/
-│   ├── Master_ESP32S3/
-│   │   ├── Master_ESP32S3.ino       # Firmware Master (Dual UART, TFT, WiFi AP, Web SCADA, MQTT)
-│   │   └── dashboard_html.h         # Web Dashboard HTML (embedded PROGMEM, ~58 KB)
-│   ├── Slave1_Nano/
-│   │   └── Slave1_Nano.ino          # Firmware Slave Boiler Chamber 1
-│   ├── Slave2_Nano/
-│   │   └── Slave2_Nano.ino          # Firmware Slave Boiler Chamber 2
-│   └── WebDashboard/
-│       └── index.html               # Web Dashboard SCADA (standalone browser version)
-├── Docs/
-│   ├── GUIDEBOOK.md                 # Buku panduan lengkap proyek (7 BAB)
-│   └── HARDWARE_PINOUT.md           # Pemetaan pin, library, & konfigurasi upload
-├── Hardware/
-│   ├── PCB_KiCad/                   # Desain skematik & layout PCB KiCad
-│   │   ├── esp32s3 wmlta.kicad_pro
-│   │   ├── esp32s3 wmlta.kicad_sch
-│   │   └── esp32s3 wmlta.kicad_pcb
-│   ├── Fabrication/                 # Berkas PDF jalur cetak tembaga (Bottom Copper)
-│   │   ├── esp32s3 wmlta-B_Cu.pdf
-│   │   └── cetak pcb wmlta zone area.pdf
-│   └── 3D_Render/                   # Gambar visualisasi 3D PCB hasil desain
-│       └── pcb_3d_preview.jpg
-├── Tools/
-│   ├── dashboard_mqtt_bridge.py     # Python MQTT-to-CSV data logger bridge
-│   └── dashboard_scada_boiler.html  # Dashboard SCADA standalone (buka langsung di browser)
-├── .gitignore
-├── LICENSE
-└── README.md                        # Dokumen ini
+Sambil menunggu, gunakan [panduan pengguna singkat](Docs/PANDUAN_PENGGUNA_SINGKAT.md) untuk mengoperasikan board dan [dokumentasi teknis](Docs/GUIDEBOOK.md) untuk konfigurasi, protokol, build, dan troubleshooting.
+
+## Dashboard
+
+![Dashboard SIMPAS dengan alarm merah dan waspada kuning](Docs/assets/dashboard-preview.jpg)
+
+*Preview menggunakan data simulasi. Tampilan ini bukan bukti pengukuran atau koneksi perangkat fisik.*
+
+- Dua kartu boiler dengan tekanan, suhu, sumber pembacaan, dan status keluaran.
+- Notifikasi **ALARM merah** dan **WASPADA kuning**, tanpa pop-up untuk trip yang hanya tertahan.
+- Alarm audio dua nada, grafik P/T, event, pengaturan ambang, dan ekspor CSV.
+- Monitor desktop menyesuaikan viewport; Guidebook dan kontrol bawah tetap terlihat. Ponsel memakai layout yang dapat digulir.
+
+Audio aktif setelah interaksi awal atau tombol **Audio AKTIFKAN**, mengikuti kebijakan browser. Silence, kondisi pulih, data terputus, atau Audio OFF menghentikan suara.
+
+## Kemampuan sistem
+
+| Bagian | Implementasi |
+|---|---|
+| **Proteksi lokal** | Evaluasi di Nano, histeresis, alarm per penyebab, silence/ACK, trip latch, dan reset setelah aman |
+| **Kendali aktuator** | Purge lokal, remote, dan global; keluaran relay D9 aktif LOW, LED mengikuti keluaran |
+| **Komunikasi** | Dua UART point to point, 9600 8N1, CRC16, sesi/sequence, retry, dan deduplikasi |
+| **Broadcast demo** | Dummy P/T bertahap yang dikirim otomatis sekitar setiap 1 detik, tanpa menunggu polling |
+| **Layar lokal** | TFT master lima halaman, border status, peak/insiden, informasi WiFi, dan QR repository |
+| **Riwayat** | Ring PSRAM, journal LittleFS, logging 5 detik + kejadian threshold/alarm/relay |
+| **Akses offline** | TFT, USB snapshot baca-saja, dan Serial `DUMP` |
+| **Integrasi PC** | Proxy HTTP dan logger CSV/SQLite; MQTT bersifat opsional |
+
+## Arsitektur
+
+```mermaid
+flowchart TB
+    Web["Dashboard browser"] <-->|"WiFi · HTTP / JSON"| Master["ESP32-S3 N16R8<br/>Master · TFT · Historian"]
+    Master <-->|"UART 1 · C / T / B"| S1["Nano slave 1<br/>Sensor P/T · Proteksi · Relay"]
+    Master <-->|"UART 2 · C / T / B"| S2["Nano slave 2<br/>Sensor P/T · Proteksi · Relay"]
+    Master -->|"USB snapshot / CDC"| PC["Laptop · history_boiler.csv"]
 ```
 
----
+Frame **C** membawa command master, **T** membalas transaksi tertentu, dan **B** membawa telemetri otomatis dengan sequence 0. Frame B tidak dianggap sebagai konfirmasi command. Kontrol lokal slave tetap berjalan saat dashboard tidak tersedia.
 
-## Spesifikasi Hardware
+## Mulai menggunakan
 
-| Komponen | Jumlah | Fungsi |
-|---|:---:|---|
-| ESP32-S3 DevKitC-1 **N16R8** | 1 | Master Controller (16 MB Flash, 8 MB OPI PSRAM) |
-| Arduino Nano ATmega328P | 2 | Slave Controller Boiler 1 & 2 |
-| TFT 1.47" ST7789 SPI | 1 | Layar Master (320×172 Landscape) |
-| LCD 16x2 I2C (PCF8574) | 2 | Layar Lokal Slave |
-| MAX6675 + Thermocouple K-Type | 2 | Sensor Suhu (0 – 1024°C) |
-| Pressure Transmitter 0-10 Bar | 2 | Sensor Tekanan (0.5V – 4.5V analog) |
-| Modul Relay 5V Active-LOW | 2 | Penggerak Katup Solenoid Purge |
-| Buzzer Aktif 5V + Driver NPN | 2 | Alarm Suara Kontinu |
-| Push Button Momentary | 9 | Tombol Operasional (3 Master + 3×2 Slave) |
+| Akses | Nilai |
+|---|---|
+| WiFi master | `SCADA_BOILER_PLTU` |
+| Password WiFi | `00000000` |
+| Dashboard board | **http://192.168.4.1** |
+| Kode kontrol | **`123456`** — masukkan pada Akses operator |
+| USB Serial master | `115200` baud, Newline |
 
----
+1. Cocokkan wiring dan catu dengan [pinout](Docs/HARDWARE_PINOUT.md), lalu unggah firmware yang sesuai ke ketiga board.
+2. Sambungkan HP/laptop ke WiFi master dan buka alamat dashboard di atas.
+3. Simpan kode kontrol untuk mengirim perintah; pastikan jam HP/laptop benar agar waktu riwayat tersinkron.
+4. Gunakan monitor untuk membaca data dan halaman pengaturan untuk mengubah ambang masing-masing boiler.
 
-## Pemetaan Pin Utama
+**Hanya mengubah dashboard?** Jalankan generator aset, build, lalu upload **master ESP32 saja** dan refresh browser. Perubahan kode slave memerlukan upload Nano yang terkait. Preview `127.0.0.1:8765` di laptop menggunakan data simulasi, bukan API board.
 
-### Master (ESP32-S3)
-| Sinyal | GPIO | Keterangan |
-|---|:---:|---|
-| VR Setpoint | 4 | Potensio threshold (ADC) |
-| PB1 / PB2 / PB3 | 5 / 6 / 7 | Halaman TFT / Mute All / Emergency Purge |
-| TFT (DC/CS/MOSI/SCK/RST) | 9/10/11/12/14 | SPI 40 MHz |
-| UART1 (RX/TX → Slave 1) | 16 / 17 | Via voltage divider 1k/2.2k |
-| UART2 (RX/TX → Slave 2) | 8 / 18 | Via voltage divider 1k/2.2k |
+### Demo broadcast
 
-### Slave (Arduino Nano) — Identik untuk kedua Slave
-| Sinyal | Pin | Keterangan |
-|---|:---:|---|
-| SoftSerial RX / TX | D2 / D3 | Komunikasi ke Master |
-| LED / Buzzer | D4 / D5 | Indikator & alarm |
-| PB1 / PB2 / PB3 | D6 / D7 / D8 | Purge / Mute / LCD Page |
-| Relay Solenoid | D9 | Active-LOW (LOW=ON, HIGH=OFF) |
-| MAX6675 (CS/SO/SCK) | D10/D12/**A0** | SCK dipindah ke A0 (D13 rusak) |
-| Pressure Transmitter | **A6** | ADC-only pin (dipindah dari A0) |
+Pilih **SIM pada kedua selector sensor**, nonaktifkan **LIVE**, lalu tahan **PB2 + PB3 slave bersamaan selama 2 detik**. LCD menampilkan `DEMO AUTO ON`; nilai bergerak bertahap dan dikirim otomatis. Ulangi kombinasi untuk berhenti.
 
-> Detail lengkap: [`Docs/HARDWARE_PINOUT.md`](Docs/HARDWARE_PINOUT.md)
+Profil presentasi dipercepat agar alarm mudah didemokan. Pada uji native dari nol dengan ambang default, alarm pertama tercapai paling lambat 18 detik untuk 80 kombinasi node/seed. Itu hasil simulasi, bukan jaminan waktu fisik. Mematikan demo tidak menghapus trip atau purge. [Detail mode broadcast →](Docs/DEMO_BROADCAST.md)
 
----
+### Riwayat lokal
 
-## Instalasi & Upload Firmware
+Ring PSRAM menyimpan data live setiap 1 detik. Flash mencatat rutin setiap **5 detik**, ditambah catatan segera saat threshold dilintasi, penyebab alarm baru muncul, atau relay mulai aktif. Flush dilakukan sekitar **4 KiB / 60 detik**.
 
-### Prasyarat
-- **Arduino IDE 2.x** (≥ 2.3.2)
-- **ESP32 Board Manager** ≥ 3.0.x ([Panduan install](https://docs.espressif.com/projects/arduino-esp32/en/latest/installing.html))
-- **Library Arduino:**
-  - `LiquidCrystal_I2C` — Frank de Brabander
-  - `Adafruit GFX Library` — Adafruit
-  - `Adafruit ST7735 and ST7789 Library` — Adafruit
-  - `PubSubClient` — Nick O'Leary
+Ekspor `history_boiler.csv` berisi **waktu WIB, tekanan/suhu kedua slave, dan status masing-masing slave**. Gunakan dashboard, USB native, atau Serial `DUMP`. Setelah menyalin dari drive USB, lakukan **Eject**. [Panduan USB & history →](Docs/USB_HISTORY.md)
 
-### Upload ke Arduino Nano (Slave)
+## Build dan pengujian
+
+Master menggunakan **ESP32-S3 N16R8**, flash **16 MiB QIO**, PSRAM **8 MiB OPI**, CDC aktif, dan partisi LittleFS **10 MiB**. Kedua Nano memakai ATmega328P dengan profil old bootloader pada build yang diverifikasi. Versi core/library dan pengaturan lengkap ada di [panduan build](Docs/GUIDEBOOK.md#3-dependensi-dan-build).
+
+Jalankan dari root repository:
+
+```powershell
+python Tools/sync_assets.py
+python Tools/build_firmware.py --target all
+
+node Tests/dashboard.test.cjs
+python -m unittest discover -s Tests -p "test_*.py" -v
 ```
-Board       : Arduino Nano
-Processor   : ATmega328P (Old Bootloader)
-Port        : COMx
+
+Build helper **tidak melakukan upload**. Header Arduino lokal dan HTML embedded dihasilkan dari sumber bersama agar sketch dapat dibuka langsung dalam Arduino IDE.
+
+| Verifikasi lokal | Hasil |
+|---|---|
+| JavaScript dashboard | 31 kasus lulus |
+| Python tools dan layanan lokal | 8 kasus lulus |
+| C++ portable | 7 suite lulus |
+| Kompilasi | Master dan kedua Nano berhasil |
+
+[GitHub Actions](https://github.com/riezky-gitH/SIMPAS-BOILER/actions) menjalankan regresi portable. [Snapshot verifikasi build](Docs/verification/current-build.json) mencatat profil dan cakupan pemeriksaan lokal. Hasil software/build tidak menggantikan uji wiring, kalibrasi, power loss, atau aktuator fisik.
+
+## Dokumentasi
+
+| Kebutuhan | Baca |
+|---|---|
+| Mengoperasikan board | [Panduan pengguna singkat](Docs/PANDUAN_PENGGUNA_SINGKAT.md) |
+| Build, konfigurasi, protokol | [Dokumentasi teknis](Docs/GUIDEBOOK.md) |
+| Wiring | [Pinout hardware](Docs/HARDWARE_PINOUT.md) |
+| Alarm web, audio, dan rasio layar | [Dashboard alarm & layout](Docs/DASHBOARD_ALARM_DAN_LAYOUT.md) |
+| Dummy otomatis | [Demo broadcast](Docs/DEMO_BROADCAST.md) |
+| Menyalin history | [USB history](Docs/USB_HISTORY.md) |
+| Modul relay dua channel | [Pemeriksaan relay](Docs/RELAY_DUA_CHANNEL.md) |
+| Penjelasan implementasi | [Implementasi dan verifikasi v3](Docs/IMPLEMENTATION_V3.md) |
+
+## Struktur repository
+
+```text
+Firmware/
+  Master_ESP32S3/    Master, TFT, historian, USB, dan dashboard embedded
+  Slave1_Nano/      Sketch node 1 dengan header hasil generate
+  Slave2_Nano/      Sketch node 2 dengan header hasil generate
+  Shared/           Kontrol, protokol, UI, broadcast, dan utilitas bersama
+  SlaveCommon/      Implementasi slave untuk kedua ID
+  WebDashboard/     Sumber HTML dashboard
+Docs/               Panduan, diagram, dan verifikasi
+Hardware/           KiCad, PDF fabrikasi, dan preview 3D
+Tools/              Generator, build, logger, dan validator
+Tests/              Regresi portable dan fixture preview
 ```
-1. Buka `Firmware/Slave1_Nano/Slave1_Nano.ino` → Upload ke Nano Boiler 1
-2. Buka `Firmware/Slave2_Nano/Slave2_Nano.ino` → Upload ke Nano Boiler 2
 
-### Upload ke ESP32-S3 (Master)
-```
-Board             : ESP32S3 Dev Module
-USB CDC On Boot   : Enabled
-Flash Size        : 16MB (128Mb)
-Partition Scheme  : 16M Flash (3MB APP / 9.9MB FATFS)
-PSRAM             : OPI PSRAM
-Upload Speed      : 921600
-```
-Buka `Firmware/Master_ESP32S3/Master_ESP32S3.ino` → Upload
+Ubah logika bersama di `Firmware/Shared` atau `Firmware/SlaveCommon`, lalu jalankan `Tools/sync_assets.py`. Konfigurasi router/broker pribadi dapat memakai `Secrets.h` yang diabaikan Git; gunakan [template kosong](Firmware/Master_ESP32S3/Secrets.example.h) sebagai acuan.
 
----
+## Catatan proyek
 
-## Akses Web SCADA Dashboard
+Ini prototipe pendidikan. Status relay menunjukkan **perintah keluaran**, belum feedback posisi katup. CAD awal tetap perlu dicocokkan dengan wiring firmware; [file hardware](Hardware) tidak otomatis membuktikan kesesuaian perakitan.
 
-Sistem bersifat **100% standalone** — tidak butuh internet atau router eksternal.
+Data RAM yang belum di-flush dapat hilang saat daya terputus. Retensi flash bergantung ukuran baris dan jumlah event; budget 9 MiB dengan baris 100 byte pada interval 5 detik memberi estimasi sekitar 5,5 hari. Inisialisasi filesystem baru harus dilakukan secara eksplisit; jangan memformat arsip yang ingin dipertahankan.
 
-1. Nyalakan alat (catu daya 5V).
-2. Hubungkan laptop/smartphone ke WiFi:
-   - **SSID:** `SCADA_BOILER_PLTU`
-   - **Password:** `admin1234`
-3. Buka browser → ketik:
-   ```
-   http://192.168.4.1
-   ```
-
-### Fitur Dashboard
-- ⚡ **Industrial SVG Gauges** — Radial gauge tekanan & suhu real-time
-- 📈 **Live Strip Chart** — Grafik tren 60 FPS dengan canvas rendering
-- 🎛️ **Quick Action Bar** — Manual Purge, Mute Buzzer, Emergency All-Purge
-- 📋 **SCADA Event Logger** — Log otomatis alarm dengan timestamp
-
----
-
-## REST API
-
-| Endpoint | Method | Deskripsi |
-|---|:---:|---|
-| `/` | GET | Web Dashboard SCADA |
-| `/api/data` | GET | JSON telemetri kedua boiler + setpoint + uptime |
-| `/api/command?node=0&action=PURGE,1` | GET | Kirim perintah ke slave (node: 0=all, 1, 2) |
-
-**Action whitelist:** `PURGE,1` · `PURGE,0` · `MUTE,1`
-
----
-
-## Protokol Komunikasi Serial
-
-### Telemetri (Slave → Master, setiap 500 ms)
-```
-#SLV<id>,<pressure>,<temp>,<src_p>,<src_t>,<valve>,<buzzer>,<state>*
-```
-Contoh: `#SLV1,4.20,165.2,REAL,REAL,OPEN,1,ALARM*`
-
-### Perintah (Master → Slave)
-```
-#CMD<target>,SET,<p_threshold>,<t_threshold>*     ← Heartbeat 1 dtk
-#CMD<target>,PURGE,<0|1>*                         ← Buka/tutup katup
-#CMD<target>,MUTE,1*                              ← Mute buzzer
-```
-Perintah PURGE/MUTE dikirim burst 3× (interval 150 ms) untuk keandalan SoftwareSerial.
-
----
-
-## Dokumentasi Lengkap
-
-📖 **[Buku Panduan Lengkap (7 BAB)](Docs/GUIDEBOOK.md)** — Arsitektur DCS, wiring, protokol, instalasi, operasional HMI, 8 skenario pengujian, dan troubleshooting.
-
----
-
-## Lisensi
-
-Proyek ini dilisensikan di bawah [MIT License](LICENSE).
-
----
-
-<p align="center">
-  <b>SIMPAS-BOILER</b> — Sistem Monitoring & Proteksi Automatis Solenoid Boiler<br/>
-  Workshop Mikrokontroler Lanjut dan Teknik Antarmuka (WMLTA) — Semester 5
-</p>
+Lisensi [MIT](LICENSE).

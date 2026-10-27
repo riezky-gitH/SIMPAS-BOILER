@@ -1,7 +1,12 @@
 # Build artifacts
 *.elf
+*.hex
+*.exe
+*.pdb
 *.bin
 *.map
+*.sqlite3*
+*.img
 *.merged.bin
 *.partitions.bin
 
@@ -22,6 +27,7 @@ desktop.ini
 # Logs
 *.log
 *.csv
+!Firmware/Master_ESP32S3/partitions.csv
 
 # Archives
 *.zip
@@ -31,6 +37,14 @@ desktop.ini
 # Temporary
 *.tmp
 *.bak
+Secrets.h
+.env
+.env.*
+!.env.example
+__pycache__/
+*.pyc
+core-tests
+core-tests.exe
 ~*
 
 # KiCad CAD files

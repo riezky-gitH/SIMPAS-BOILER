@@ -1,0 +1,27 @@
+name: Firmware and dashboard checks
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  portable:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python Tools/sync_assets.py
+      - run: node Tests/dashboard.test.cjs
+      - run: python -m unittest discover -s Tests -p 'test_*.py' -v
+      - run: g++ -std=c++11 -Wall -Wextra -pedantic Tests/core_tests.cpp -o core-tests && ./core-tests
+
+      - run: g++ -std=c++11 -Wall -Wextra -pedantic Tests/screen_tests.cpp -o screen-tests && ./screen-tests
+      - run: g++ -std=c++11 -Wall -Wextra -pedantic Tests/usb_session_tests.cpp -o usb-session-tests && ./usb-session-tests
+      - run: g++ -std=c++11 -Wall -Wextra -pedantic Tests/history_tests.cpp -o history-tests && ./history-tests
+      - run: g++ -std=c++11 -Wall -Wextra -pedantic Tests/operator_ui_tests.cpp -o operator-ui-tests && ./operator-ui-tests
+      - run: g++ -std=c++11 -Wall -Wextra -pedantic Tests/history_export_tests.cpp -o history-export-tests && ./history-export-tests readable-history.csv
+      - run: python Tools/validate_history.py readable-history.csv
+      - run: g++ -std=c++11 -Wall -Wextra -pedantic Tests/demo_broadcast_tests.cpp -o demo-broadcast-tests && ./demo-broadcast-tests

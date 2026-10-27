@@ -1,0 +1,6 @@
+# N16R8: 16 MiB flash; single 5.9375 MiB application, 10 MiB LittleFS.
+# Name, Type, SubType, Offset, Size, Flags
+nvs,data,nvs,0x9000,0x5000,
+otadata,data,ota,0xe000,0x2000,
+app0,app,ota_0,0x10000,0x5f0000,
+spiffs,data,spiffs,0x600000,0xa00000,

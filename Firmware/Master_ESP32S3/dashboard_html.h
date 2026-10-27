@@ -1,1353 +1,168 @@
-#ifndef DASHBOARD_HTML_H
-#define DASHBOARD_HTML_H
-
+// Generated from Firmware/WebDashboard/index.html.
+#pragma once
 #include <pgmspace.h>
-
-const char INDEX_HTML[] PROGMEM = R"rawliteral(
-<!DOCTYPE html>
-<html lang="id" data-theme="dark">
+const char INDEX_HTML[] PROGMEM = R"SCADA_HTML(
+<!doctype html>
+<html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SCADA Boiler PLTU - Interactive React-Style Console</title>
-  <style>
-    /* ==========================================================================
-       DESIGN SYSTEM (TAILWIND / REACT UI INSPIRED)
-       ========================================================================== */
-    :root {
-      --bg: #090d16;
-      --bg-surface: #0f172a;
-      --bg-card: #1e293b;
-      --bg-card-sub: #172033;
-      --bg-card-hover: #334155;
-      --border: #334155;
-      --border-focus: #38bdf8;
-      
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --text-dim: #64748b;
-      
-      --primary: #991b1b;
-      --primary-hover: #b91c1c;
-      --primary-glow: rgba(185, 28, 28, 0.4);
-      --cyan: #06b6d4;
-      --cyan-glow: rgba(6, 182, 212, 0.25);
-      --emerald: #10b981;
-      --emerald-glow: rgba(16, 185, 129, 0.25);
-      --amber: #f59e0b;
-      --amber-glow: rgba(245, 158, 11, 0.25);
-      --crimson: #ef4444;
-      --crimson-glow: rgba(239, 68, 68, 0.35);
-      --violet: #8b5cf6;
-      
-      --radius-xl: 18px;
-      --radius-lg: 12px;
-      --radius-md: 8px;
-      --radius-sm: 6px;
-      --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
-      --shadow-card: 0 10px 25px -5px rgba(0,0,0,0.5), 0 0 0 1px var(--border);
-    }
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#800020"><title>SIMPAS | Boiler SCADA</title>
+<style>
+:root{color-scheme:light;--bg:#e9e9e7;--panel:#fafaf8;--white:#fff;--line:#d4d4d1;--ink:#292a2d;--muted:#727274;--accent:#800020;--accent-dark:#65031c;--good:#416451;--amber:#916018;--red:#9a1632;--rail:#343436;--mono:Consolas,"SFMono-Regular",monospace}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 "Segoe UI",Arial,sans-serif}button,input,select{font:inherit}button,a,input,select,summary{-webkit-tap-highlight-color:transparent}button{cursor:pointer;border:1px solid #bdbdbb;background:var(--panel);color:var(--ink);border-radius:3px;padding:9px 13px;font-weight:600;transition:background .15s,border-color .15s}button:hover{background:#eeeae9;border-color:#8c8c8c}button:disabled{opacity:.45;cursor:not-allowed}button:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:3px}input:focus,select:focus{outline:2px solid #80002040;border-color:var(--accent)}input,select{border:1px solid #bdbdbb;background:var(--white);border-radius:3px;color:var(--ink);padding:9px 10px;min-width:0}input[type=checkbox]{accent-color:var(--accent)}a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}h1,h2,h3,p{margin-top:0}h1{font-size:24px;letter-spacing:-.7px;margin-bottom:0;font-weight:600}h2{font-size:16px;font-weight:600;margin-bottom:16px}h3{font-size:13px;font-weight:600;margin-bottom:14px}small{font-size:11px}.muted,.sub{color:var(--muted)}.good{color:var(--good)}.bad{color:var(--red)}.warn{color:var(--amber)}[hidden]{display:none!important}
+.app-shell{min-height:100vh;display:grid;grid-template-columns:192px minmax(0,1fr)}.sidebar{background:var(--rail);color:#f4f4f3;display:flex;flex-direction:column;padding:28px 16px 20px;gap:30px;border-right:1px solid #28282a}.brand{display:flex;align-items:center;gap:10px;padding:0 8px}.brand-mark{height:34px;width:34px;display:grid;place-items:center;background:var(--accent)}.brand-mark svg{width:23px;height:23px}.brand strong{display:block;font-size:19px;letter-spacing:1.8px;line-height:1.1}.brand small{color:#a7a7aa;font-size:9px;letter-spacing:2px}.nav-label{font-size:9px;letter-spacing:1.6px;color:#9c9c9f;margin:0 10px 10px}.tabs{display:flex;flex-direction:column;gap:5px}.tabs button{display:flex;align-items:center;gap:11px;padding:12px 13px;color:#c7c7c9;border:0;background:transparent;text-align:left;font-size:12px;font-weight:500;white-space:nowrap}.tabs button:hover{background:#454548;color:white}.tabs button.active{background:var(--accent);color:white}.tabs svg{width:17px;height:17px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}.sidebar-bottom{margin-top:auto;padding:0 8px}.sidebar-bottom a{font-size:11px;color:#b9b9bc}.system-label{display:flex;gap:7px;align-items:center;color:#aaa;font-size:10px;letter-spacing:1px;margin-bottom:15px}.system-label i{width:5px;height:5px;background:#b3b3b5}.workspace{min-width:0;display:flex;flex-direction:column}.topbar{min-height:68px;padding:14px 28px;background:#f7f7f5;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:16px}.station{font-size:11px;letter-spacing:1.3px;color:#68686b}.station strong{color:var(--ink);font-weight:600}.top-status{display:flex;align-items:center;gap:18px}.status,.badge{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:700;letter-spacing:.5px;white-space:nowrap}.status:before,.badge:before{content:"";height:5px;width:5px;background:currentColor;border-radius:50%}.top-status small{font-family:var(--mono);font-size:11px;min-width:76px}.work-content{width:100%;max-width:1800px;margin:0 auto;padding:25px 28px 18px;flex:1}.section-heading{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:22px}.section-heading .sub{font-size:11px;margin-top:4px}.access{display:flex;align-items:center;gap:10px;font-size:11px}.access button{font-size:11px;padding:7px 10px}.access details{position:relative}.access summary{cursor:pointer;list-style:none;border:1px solid #bdbdbb;background:var(--panel);border-radius:3px;padding:7px 10px;font-weight:600}.access summary::-webkit-details-marker{display:none}.access-popover{position:absolute;right:0;top:40px;width:290px;background:var(--panel);padding:18px;border:1px solid var(--line);box-shadow:0 8px 24px #0002;z-index:10}.access-popover input{width:100%;font-size:12px;margin:8px 0}.access-popover button{width:100%}.access-popover label{margin:0}.overview-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid var(--line);background:#f5f5f3;margin-bottom:22px}.overview-stats>div{padding:15px 19px;border-right:1px solid var(--line)}.overview-stats>div:last-child{border:0}.overview-stats small{display:block;color:var(--muted);font-size:10px;letter-spacing:.5px;margin-bottom:5px}.overview-stats strong{font:500 23px/1.2 var(--mono);letter-spacing:-1px}.overview-stats .unit{font:11px "Segoe UI",sans-serif;letter-spacing:0;margin-left:6px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}.card{min-width:0;background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:22px}.unit-card{padding:0;overflow:hidden}.unit-card.alarm{border-color:var(--red);box-shadow:inset 0 3px var(--red)}.unit-head{padding:16px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);gap:12px}.unit-name{display:flex;align-items:center;gap:12px}.unit-index{font:12px var(--mono);color:var(--accent);border:1px solid #d1b9bf;padding:5px 6px;border-radius:2px}.unit-head h2{font-size:14px;letter-spacing:.1px;margin:0}.metrics{display:grid;grid-template-columns:1fr 1fr;padding:20px 20px 0;gap:25px}.metric small{font-size:9px;letter-spacing:1px;color:var(--muted)}.value{font:500 clamp(30px,3.3vw,48px)/1.25 var(--mono);letter-spacing:-2px;color:var(--ink);white-space:nowrap;margin:5px 0}.value .unit{font:12px "Segoe UI",sans-serif;color:var(--muted);letter-spacing:0;margin-left:5px}.meter{height:3px;background:#dededb;margin-top:9px}.meter i{display:block;width:0;height:100%;background:var(--accent);transition:width .3s}.metric.temp .meter i{background:#67676b}.metric p{color:var(--muted);font:10px var(--mono);margin:8px 0 0}.process{padding:0 20px;margin:10px 0}.process svg{width:100%;height:130px;display:block}.process .pipe{fill:none;stroke:#99999b;stroke-width:3;stroke-linejoin:round}.process .thin{stroke:#99999b;stroke-width:1.2;fill:none}.process text{font-family:var(--mono);fill:#6e6e71;font-size:9px}.process .vessel{fill:#efefed;stroke:#99999b;stroke-width:1.5}.process .coil{fill:none;stroke:#bbb;stroke-width:1.3}.process .tag{fill:var(--panel);stroke:#99999b;stroke-width:1.2}.process .unit-number{font-size:25px;fill:#5f5f63;letter-spacing:-1px}.process .output-lamp{fill:#939397}.unit-card.relay-on .output-lamp{fill:var(--accent)}.unit-card.offline .process{opacity:.5}.unit-meta{padding:0 20px 4px}.row{display:flex;justify-content:space-between;gap:12px;border-top:1px solid var(--line);padding:9px 0;font-size:11px}.row>span:last-child{text-align:right}.row strong{font-family:var(--mono);font-size:11px;font-weight:600}.actions{display:flex;flex-wrap:wrap;gap:7px}.actions button{font-size:11px;padding:8px 11px}.unit-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;padding:13px 20px 17px;background:#f3f3f1;border-top:1px solid var(--line)}.unit-actions button{font-size:10px;padding:8px 5px}.primary{background:var(--accent);border-color:var(--accent);color:white}.primary:hover{background:var(--accent-dark);border-color:var(--accent-dark)}.danger{color:var(--accent);border-color:#c5a6af;background:#f8f1f3}.danger:hover{background:#ead8dd;border-color:var(--accent)}.global{margin-top:20px;border:1px solid var(--line);border-left:3px solid var(--accent);background:#f5f5f3;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px}.global strong{font-size:13px;font-weight:600}.global small{display:block;color:var(--muted);font-size:10px;margin-top:3px}.bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}.bar.spread{justify-content:space-between}.bar h2{margin:0}.bar select{font-size:12px;padding:8px}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:0 0 18px}.stats>div{border:1px solid var(--line);background:var(--panel);padding:16px;border-radius:3px}.stats strong{display:block;font:20px var(--mono);margin-top:7px}.chart{width:100%;height:250px;display:block}.chart-head{display:flex;justify-content:space-between;gap:12px;align-items:center}.chart-head h3{margin:0}.chart-legend{display:flex;gap:14px;font-size:10px;color:var(--muted)}.chart-legend span{display:flex;gap:5px;align-items:center}.chart-legend i{width:13px;height:2px;background:var(--accent)}.chart-legend .b2{background:#67676b}.chart-legend .limit{background:transparent;border-top:1px dashed #888}.stack{margin-top:20px}.table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;font-size:11px}td,th{padding:12px 10px;text-align:left;border-bottom:1px solid var(--line)}th{font-size:10px;letter-spacing:.5px;font-weight:600;color:var(--muted);background:#f1f1ef;white-space:nowrap}td:first-child{white-space:nowrap;font-family:var(--mono);font-size:10px}td{overflow-wrap:anywhere}.table-wrap table{min-width:550px}label{display:block;font-size:12px;color:#626266;margin-bottom:18px}label input,label select{display:block;width:100%;margin-top:7px}label.check{display:flex;align-items:center;gap:9px}label.check input{margin:0;width:auto}.config-grid{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr)}.config-grid .grid{gap:16px}.config-grid p{font-size:12px}details{margin:16px 0}summary{cursor:pointer;font-size:12px;color:var(--muted)}.access details{margin:0}.notice{padding:12px 16px;font-size:12px;border:1px solid #d5bba0;border-left:3px solid var(--amber);background:#f7f0e4;color:#79521d;margin-bottom:20px}.notice a{color:inherit;text-decoration:underline}.operation-notes{margin:0 0 25px;padding:0;list-style:none}.operation-notes li{padding:12px 0;border-bottom:1px solid var(--line);font-size:12px;color:var(--muted)}.operation-notes strong{color:var(--ink)}.operation-notes li:first-child{padding-top:0}#retention{font-size:11px}.diagnostic-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.diagnostic-grid .row{font-size:11px}pre{font:11px/1.6 var(--mono);white-space:pre-wrap;overflow-wrap:anywhere;background:#efefed;border:1px solid var(--line);padding:18px}.system-footer{margin-top:22px;padding-top:13px;border-top:1px solid #cfcfcd;color:#86868a;display:flex;justify-content:space-between;gap:10px;font-size:9px;letter-spacing:.4px}.system-footer a{color:inherit}#toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);z-index:30;max-width:min(92%,520px);padding:13px 19px;background:#343436;border-left:3px solid var(--accent);color:white;font-size:12px;box-shadow:0 5px 24px #0002}.preview-banner{padding:5px 12px;background:#f3e6ce;color:#6b4d20;font:11px monospace;text-align:center}
+@media(min-width:1600px){.app-shell{grid-template-columns:216px minmax(0,1fr)}.work-content{padding:30px 40px 22px}.topbar{padding-left:40px;padding-right:40px}.metrics{padding:24px 28px 0}.unit-head{padding:18px 28px}.process svg{height:160px}.unit-meta{padding-left:28px;padding-right:28px}.unit-actions{padding:16px 28px 20px}.value{font-size:51px}}
+@media(max-width:1100px){.app-shell{grid-template-columns:160px minmax(0,1fr)}.sidebar{padding:24px 10px 18px}.brand{padding:0 3px;gap:8px}.brand strong{font-size:16px}.brand small{font-size:8px}.brand-mark{width:29px;height:29px}.tabs button{padding:11px 10px;gap:8px}.topbar{padding:14px 20px}.work-content{padding:22px 20px 16px}.unit-head{padding:14px}.metrics{padding:18px 14px 0;gap:12px}.value{font-size:32px}.unit-meta{padding:0 14px 4px}.unit-actions{padding:12px 14px}.unit-actions button{font-size:9px}.row{font-size:10px}.overview-stats>div{padding:14px}.overview-stats strong{font-size:20px}.diagnostic-grid{grid-template-columns:1fr}.global{align-items:flex-start;flex-direction:column}}
+@media(max-width:800px){.app-shell{grid-template-columns:1fr}.sidebar{display:block;padding:0;border:0;background:var(--rail)}.brand{padding:14px 18px}.brand strong{font-size:17px}.brand small{font-size:8px}.nav-label,.sidebar-bottom{display:none}.tabs{flex-direction:row;gap:0;overflow:auto;padding:0 10px}.tabs button{justify-content:center;flex:1;border-radius:0;padding:12px 10px;min-height:44px;font-size:11px}.tabs svg{display:none}.topbar{min-height:51px;padding:11px 18px}.station{font-size:9px}.top-status{gap:10px}.work-content{padding:22px 18px 15px}.grid{gap:14px}.unit-actions{grid-template-columns:repeat(2,minmax(0,1fr))}.config-grid{grid-template-columns:1fr}.overview-stats{margin-bottom:18px}.overview-stats>div{padding:12px}.overview-stats strong{font-size:21px}.overview-stats small{font-size:9px}.section-heading{margin-bottom:20px}.global{flex-direction:row;align-items:center;flex-wrap:wrap}}
+@media(max-width:600px){.grid{grid-template-columns:1fr}.overview-stats{grid-template-columns:1fr 1fr}.overview-stats>div:nth-child(2){border-right:0}.overview-stats>div:nth-child(-n+2){border-bottom:1px solid var(--line)}.overview-stats>div{padding:13px 16px}.overview-stats strong{font-size:24px}.section-heading{align-items:flex-start;gap:12px;flex-wrap:wrap}.access{gap:7px}.access summary,.access button{min-height:36px;font-size:10px}.access-popover{right:auto;left:0;width:270px}.access details:last-child .access-popover{left:auto;right:0}.top-status{gap:8px}.top-status small{font-size:10px}.status{font-size:9px}.station{letter-spacing:.5px}h1{font-size:22px}.value{font-size:42px}.unit-head{padding:16px 20px}.metrics{padding:20px 20px 0;gap:24px}.process svg{height:145px}.unit-meta{padding:0 20px 4px}.row{font-size:11px}.unit-actions{grid-template-columns:repeat(3,minmax(0,1fr));padding:14px 20px}.unit-actions button{font-size:10px;min-height:38px}.global{padding:16px;gap:14px}.global .actions{width:100%;display:grid;grid-template-columns:1fr 1fr}.global .actions button:last-child{grid-column:1/-1}.stats{grid-template-columns:1fr 1fr;gap:10px}.stats>div{padding:13px}.stats strong{font-size:17px}.card{padding:18px}.unit-card{padding:0}.chart-head{align-items:flex-start;flex-direction:column;gap:9px}.chart-legend{flex-wrap:wrap}.bar.spread{align-items:flex-start}.bar .actions{width:100%}.bar .actions button{flex:1}.tabs button{padding:11px 7px;font-size:10px}.system-footer{font-size:8px}.table-wrap table{min-width:500px}}
+@media(min-width:601px) and (max-width:800px){.value{font-size:28px}}
+@media(max-width:380px){.metrics{gap:12px}.value{font-size:29px}.value .unit{font-size:10px;display:block;margin:0}.work-content{padding-left:12px;padding-right:12px}.access{width:100%}.tabs button{font-size:9px;padding-left:5px;padding-right:5px}.unit-actions{padding-left:14px;padding-right:14px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
 
-    [data-theme="light"] {
-      --bg: #f8fafc;
-      --bg-surface: #ffffff;
-      --bg-card: #ffffff;
-      --bg-card-sub: #f1f5f9;
-      --bg-card-hover: #e2e8f0;
-      --border: #e2e8f0;
-      --border-focus: #0284c7;
-      
-      --text-main: #0f172a;
-      --text-muted: #475569;
-      --text-dim: #94a3b8;
-      
-      --primary: #800000;
-      --primary-hover: #990000;
-      --primary-glow: rgba(128, 0, 0, 0.2);
-      --cyan: #0284c7;
-      --emerald: #16a34a;
-      --amber: #d97706;
-      --crimson: #dc2626;
-      --violet: #7c3aed;
-      
-      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
-      --shadow-card: 0 4px 20px -2px rgba(0,0,0,0.08), 0 0 0 1px var(--border);
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
-    body {
-      background-color: var(--bg);
-      color: var(--text-main);
-      padding: 1rem 1.25rem 3rem;
-      min-height: 100vh;
-      line-height: 1.5;
-      transition: background-color 0.25s, color 0.25s;
-    }
-    .mono { font-family: "SF Mono", "Cascadia Code", Consolas, Menlo, Monaco, monospace; }
-
-    /* Container */
-    .app-container { max-width: 1440px; margin: 0 auto; display: flex; flex-direction: column; gap: 1.25rem; }
-
-    /* ==========================================================================
-       HEADER & NAVIGATION BAR (REACT NAVBAR PATTERN)
-       ========================================================================== */
-    .navbar {
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-xl);
-      padding: 0.85rem 1.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: var(--shadow-card);
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-    .nav-brand { display: flex; align-items: center; gap: 0.85rem; }
-    .brand-icon {
-      width: 44px; height: 44px;
-      background: linear-gradient(135deg, #800000, #dc2626);
-      border-radius: var(--radius-lg);
-      display: flex; align-items: center; justify-content: center;
-      color: white; font-weight: 800; font-size: 1.2rem;
-      box-shadow: 0 4px 14px var(--primary-glow);
-    }
-    .brand-title { font-size: 1.15rem; font-weight: 800; letter-spacing: -0.3px; color: var(--text-main); }
-    .brand-sub { font-size: 0.75rem; color: var(--text-muted); font-weight: 500; }
-
-    /* Tabs (React-Like Component) */
-    .nav-tabs {
-      display: flex;
-      background: var(--bg-card-sub);
-      border: 1px solid var(--border);
-      padding: 0.25rem;
-      border-radius: var(--radius-lg);
-      gap: 0.25rem;
-    }
-    .tab-item {
-      padding: 0.45rem 1rem;
-      border-radius: var(--radius-md);
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: var(--text-muted);
-      cursor: pointer;
-      display: inline-flex; align-items: center; gap: 0.45rem;
-      border: none; background: transparent;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      user-select: none;
-    }
-    .tab-item:hover { color: var(--text-main); background: rgba(255,255,255,0.05); }
-    .tab-item.active {
-      color: white;
-      background: var(--primary);
-      box-shadow: 0 2px 8px var(--primary-glow);
-    }
-    [data-theme="light"] .tab-item.active { color: white; background: var(--primary); }
-
-    .nav-tools { display: flex; align-items: center; gap: 0.65rem; }
-    .status-badge {
-      display: inline-flex; align-items: center; gap: 0.45rem;
-      padding: 0.35rem 0.75rem; border-radius: 9999px;
-      font-size: 0.75rem; font-weight: 700;
-      background: var(--bg-card-sub); border: 1px solid var(--border);
-      color: var(--text-main);
-    }
-    .pulse-dot {
-      width: 8px; height: 8px; border-radius: 50%;
-      background: var(--emerald); box-shadow: 0 0 8px var(--emerald);
-      animation: pulse-ring 1.8s infinite;
-    }
-    .pulse-dot.offline { background: var(--crimson); box-shadow: 0 0 8px var(--crimson); }
-    @keyframes pulse-ring { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.85); } }
-
-    .btn-icon {
-      background: var(--bg-card-sub); border: 1px solid var(--border);
-      color: var(--text-main); border-radius: var(--radius-md);
-      padding: 0.4rem 0.75rem; font-size: 0.75rem; font-weight: 600;
-      cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;
-      transition: all 0.2s;
-    }
-    .btn-icon:hover { background: var(--bg-card-hover); border-color: var(--border-focus); transform: translateY(-1px); }
-
-    /* ==========================================================================
-       HERO KPI RIBBON (QUICK TELEMETRY CHIPS)
-       ========================================================================== */
-    .kpi-row {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 0.85rem;
-    }
-    .kpi-chip {
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 0.85rem 1.15rem;
-      box-shadow: var(--shadow-sm);
-      display: flex; justify-content: space-between; align-items: center;
-      position: relative; overflow: hidden;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .kpi-chip:hover { transform: translateY(-2px); box-shadow: var(--shadow-card); }
-    .kpi-chip::after {
-      content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
-      background: var(--primary);
-    }
-    .kpi-chip.kpi-cyan::after { background: var(--cyan); }
-    .kpi-chip.kpi-emerald::after { background: var(--emerald); }
-    .kpi-chip.kpi-amber::after { background: var(--amber); }
-
-    .kpi-title { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.5px; }
-    .kpi-value { font-size: 1.25rem; font-weight: 800; color: var(--text-main); margin-top: 0.15rem; }
-    .kpi-pill { font-size: 0.65rem; padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 700; }
-
-    /* ==========================================================================
-       TAB 1: LIVE MONITORING (DUAL CHAMBER CONSOLE)
-       ========================================================================== */
-    .chamber-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
-      gap: 1.25rem;
-    }
-    @media (max-width: 640px) { .chamber-grid { grid-template-columns: 1fr; } }
-
-    .chamber-card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-xl);
-      padding: 1.35rem;
-      box-shadow: var(--shadow-card);
-      position: relative;
-      overflow: hidden;
-      display: flex; flex-direction: column; gap: 1.25rem;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .chamber-card.is-alarm {
-      border-color: var(--crimson);
-      box-shadow: 0 0 25px rgba(239, 68, 68, 0.35);
-    }
-    .chamber-card.is-alarm::before {
-      content: ""; position: absolute; top: 0; left: 0; right: 0; height: 4px;
-      background: var(--crimson);
-      animation: pulse-ring 1s infinite;
-    }
-
-    .card-header {
-      display: flex; justify-content: space-between; align-items: center;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 0.85rem;
-    }
-    .card-title-group { display: flex; align-items: center; gap: 0.75rem; }
-    .unit-tag {
-      width: 32px; height: 32px; border-radius: var(--radius-md);
-      background: var(--bg-card-sub); border: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.85rem; font-weight: 800; color: var(--cyan);
-    }
-    .card-title-text { font-size: 1.05rem; font-weight: 800; letter-spacing: -0.2px; }
-    .card-subtitle-text { font-size: 0.7rem; color: var(--text-dim); }
-
-    .state-pill {
-      padding: 0.3rem 0.85rem; border-radius: var(--radius-sm);
-      font-size: 0.75rem; font-weight: 800; text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    .state-normal  { background: rgba(16, 185, 129, 0.15); color: var(--emerald); border: 1px solid rgba(16, 185, 129, 0.3); }
-    .state-warning { background: rgba(245, 158, 11, 0.15); color: var(--amber); border: 1px solid rgba(245, 158, 11, 0.3); }
-    .state-alarm   { background: rgba(239, 68, 68, 0.2); color: var(--crimson); border: 1px solid rgba(239, 68, 68, 0.4); animation: pulse-scale 1s infinite; }
-    .state-offline { background: rgba(148, 163, 184, 0.15); color: var(--text-muted); border: 1px solid rgba(148, 163, 184, 0.3); }
-    @keyframes pulse-scale { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-
-    /* Interactive Gauge Section */
-    .telemetry-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-    }
-    .gauge-box {
-      background: var(--bg-card-sub);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 1rem;
-      display: flex; flex-direction: column; align-items: center;
-      position: relative;
-    }
-    .gauge-top { width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
-    .gauge-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); }
-    .source-badge {
-      font-size: 0.6rem; font-weight: 700; padding: 0.15rem 0.45rem; border-radius: 4px;
-      background: rgba(6, 182, 212, 0.1); color: var(--cyan); border: 1px solid rgba(6, 182, 212, 0.25);
-    }
-    .source-badge.sim { background: rgba(168, 85, 247, 0.1); color: #c084fc; border-color: rgba(168, 85, 247, 0.25); }
-
-    /* Circular SVG Gauge */
-    .radial-gauge { width: 150px; height: 110px; position: relative; }
-    .radial-gauge svg { width: 100%; height: 100%; overflow: visible; }
-    .gauge-bg { fill: none; stroke: var(--border); stroke-width: 10; stroke-linecap: round; }
-    .gauge-fill {
-      fill: none; stroke: var(--cyan); stroke-width: 10; stroke-linecap: round;
-      stroke-dasharray: 235.6; stroke-dashoffset: 235.6;
-      transition: stroke-dashoffset 0.4s ease, stroke 0.3s ease;
-    }
-    .gauge-fill.warn { stroke: var(--amber); }
-    .gauge-fill.danger { stroke: var(--crimson); filter: drop-shadow(0 0 6px rgba(239, 68, 68, 0.5)); }
-
-    .gauge-center-text {
-      position: absolute; bottom: 8px; left: 0; right: 0; text-align: center;
-    }
-    .gauge-value { font-size: 1.65rem; font-weight: 800; letter-spacing: -1px; }
-    .gauge-unit { font-size: 0.75rem; font-weight: 700; color: var(--text-dim); }
-
-    .gauge-footer-text {
-      margin-top: 0.4rem; font-size: 0.65rem; color: var(--text-dim);
-      width: 100%; display: flex; justify-content: space-between;
-    }
-
-    /* Solenoid Valve & Pipe Schematic (Interactive Visual) */
-    .pipe-schematic-card {
-      background: var(--bg-card-sub);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 0.85rem 1.15rem;
-      display: flex; justify-content: space-between; align-items: center;
-      gap: 1rem;
-    }
-    .valve-visual-wrap { display: flex; align-items: center; gap: 0.85rem; }
-    .valve-icon-badge {
-      width: 44px; height: 44px; border-radius: var(--radius-md);
-      display: flex; align-items: center; justify-content: center;
-      transition: all 0.3s;
-    }
-    .valve-closed {
-      background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3);
-      color: var(--emerald);
-    }
-    .valve-open {
-      background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.4);
-      color: var(--crimson);
-      animation: pulse-ring 1s infinite;
-    }
-    .valve-details-title { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); }
-    .valve-details-state { font-size: 0.9rem; font-weight: 800; }
-
-    .buzzer-indicator { display: flex; align-items: center; gap: 0.5rem; font-size: 0.75rem; font-weight: 700; }
-    .buzzer-icon {
-      width: 32px; height: 32px; border-radius: var(--radius-sm);
-      display: flex; align-items: center; justify-content: center;
-      background: var(--bg-surface); border: 1px solid var(--border);
-      color: var(--text-dim);
-    }
-    .buzzer-icon.active {
-      background: rgba(239, 68, 68, 0.2); border-color: var(--crimson);
-      color: var(--crimson); animation: pulse-ring 0.8s infinite;
-    }
-
-    /* Buttons (React/Tailwind Style Button Component) */
-    .action-button-group { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-    .app-btn {
-      flex: 1; min-width: 120px; padding: 0.65rem 0.85rem;
-      border-radius: var(--radius-md); font-size: 0.75rem; font-weight: 700;
-      cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 0.45rem;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      border: 1px solid transparent; user-select: none;
-    }
-    .app-btn:active { transform: scale(0.96); }
-    .btn-maroon {
-      background: var(--primary); color: white;
-      box-shadow: 0 2px 8px var(--primary-glow);
-    }
-    .btn-maroon:hover { background: var(--primary-hover); transform: translateY(-1px); }
-    .btn-slate {
-      background: var(--bg-card-sub); border-color: var(--border);
-      color: var(--text-main);
-    }
-    .btn-slate:hover { background: var(--bg-card-hover); border-color: var(--border-focus); transform: translateY(-1px); }
-
-    /* ==========================================================================
-       TAB 2: REAL-TIME CHART CANVAS (ZERO-CDN 60 FPS)
-       ========================================================================== */
-    .chart-card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-xl);
-      padding: 1.5rem;
-      box-shadow: var(--shadow-card);
-      display: flex; flex-direction: column; gap: 1rem;
-    }
-    .chart-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; }
-    .chart-legend { display: flex; align-items: center; gap: 1.25rem; font-size: 0.75rem; font-weight: 700; }
-    .legend-item { display: flex; align-items: center; gap: 0.4rem; }
-    .legend-box { width: 12px; height: 12px; border-radius: 3px; }
-
-    .canvas-container {
-      width: 100%; height: 320px; position: relative;
-      background: var(--bg-card-sub); border: 1px solid var(--border);
-      border-radius: var(--radius-lg); overflow: hidden;
-    }
-    canvas { width: 100%; height: 100%; display: block; }
-
-    /* ==========================================================================
-       TAB 3: ALARM & AUDIT EVENT LOGS
-       ========================================================================== */
-    .log-card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-xl);
-      padding: 1.25rem;
-      box-shadow: var(--shadow-card);
-      display: flex; flex-direction: column; gap: 0.85rem;
-    }
-    .log-table-wrap {
-      max-height: 420px; overflow-y: auto;
-      border: 1px solid var(--border); border-radius: var(--radius-lg);
-    }
-    .log-table {
-      width: 100%; border-collapse: collapse; font-size: 0.75rem; text-align: left;
-    }
-    .log-table th {
-      background: var(--bg-card-sub); padding: 0.75rem 1rem;
-      font-weight: 700; color: var(--text-muted); position: sticky; top: 0; z-index: 2;
-      border-bottom: 1px solid var(--border);
-    }
-    .log-table td {
-      padding: 0.65rem 1rem; border-bottom: 1px solid var(--border);
-    }
-    .log-table tr:hover td { background: rgba(255,255,255,0.02); }
-
-    /* ==========================================================================
-       TAB 4: SYSTEM DIAGNOSTICS & TELEMETRY DEBUGGER
-       ========================================================================== */
-    .diag-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 1.25rem;
-    }
-    .diag-card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-xl);
-      padding: 1.25rem;
-      box-shadow: var(--shadow-card);
-      display: flex; flex-direction: column; gap: 0.75rem;
-    }
-    .diag-item {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 0.5rem 0; border-bottom: 1px solid var(--border); font-size: 0.8rem;
-    }
-    .diag-item:last-child { border-bottom: none; }
-
-    /* ==========================================================================
-       EMERGENCY MASTER OVERRIDE FOOTER CONSOLE
-       ========================================================================== */
-    .emergency-console {
-      background: linear-gradient(135deg, rgba(239, 68, 68, 0.08), rgba(185, 28, 28, 0.18));
-      border: 1.5px solid rgba(239, 68, 68, 0.4);
-      border-radius: var(--radius-xl);
-      padding: 1.25rem 1.5rem;
-      display: flex; justify-content: space-between; align-items: center;
-      gap: 1.25rem; flex-wrap: wrap;
-      box-shadow: var(--shadow-card);
-    }
-    .emergency-text-group { display: flex; align-items: center; gap: 1rem; }
-    .emergency-badge-icon {
-      width: 48px; height: 48px; border-radius: var(--radius-lg);
-      background: rgba(239, 68, 68, 0.2); border: 1px solid var(--crimson);
-      display: flex; align-items: center; justify-content: center;
-      color: var(--crimson); font-size: 1.4rem;
-      animation: pulse-ring 1.5s infinite;
-    }
-    .emergency-heading { font-size: 1.05rem; font-weight: 800; color: var(--crimson); }
-    .emergency-subheading { font-size: 0.75rem; color: var(--text-muted); max-width: 550px; margin-top: 0.15rem; }
-
-    .emergency-btn-group { display: flex; gap: 0.75rem; flex-wrap: wrap; }
-    .btn-emergency-action {
-      background: linear-gradient(135deg, #b91c1c, #ef4444);
-      color: white; font-weight: 800; font-size: 0.85rem;
-      padding: 0.8rem 1.5rem; border-radius: var(--radius-md);
-      border: none; cursor: pointer;
-      box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      transition: all 0.2s;
-    }
-    .btn-emergency-action:hover {
-      background: linear-gradient(135deg, #991b1b, #dc2626);
-      transform: translateY(-2px); box-shadow: 0 6px 20px rgba(239, 68, 68, 0.6);
-    }
-    .btn-emergency-action:active { transform: scale(0.96); }
-
-    /* ==========================================================================
-       MODAL & TOAST DIALOGS (REACT PORTAL INSPIRED)
-       ========================================================================== */
-    .modal-overlay {
-      position: fixed; inset: 0; background: rgba(0,0,0,0.7);
-      backdrop-filter: blur(4px); z-index: 999;
-      display: none; align-items: center; justify-content: center;
-      padding: 1rem;
-    }
-    .modal-overlay.open { display: flex; }
-    .modal-dialog {
-      background: var(--bg-surface); border: 1px solid var(--border);
-      border-radius: var(--radius-xl); max-width: 440px; width: 100%;
-      padding: 1.5rem; box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-      animation: modal-pop 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-    @keyframes modal-pop { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-
-    .toast-container {
-      position: fixed; bottom: 20px; right: 20px; z-index: 1000;
-      display: flex; flex-direction: column; gap: 0.5rem;
-    }
-    .toast-card {
-      background: var(--bg-surface); border: 1px solid var(--border-focus);
-      color: var(--text-main); padding: 0.75rem 1.15rem; border-radius: var(--radius-md);
-      font-size: 0.75rem; font-weight: 600; box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-      display: flex; align-items: center; gap: 0.65rem;
-      animation: toast-slide 0.25s ease-out;
-    }
-    @keyframes toast-slide { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-  </style>
+/* Process alerts are separate from retained trip/output state. */
+.unit-card.alarm{border-color:#d62936;box-shadow:inset 0 3px #d62936}.unit-card.warning{border-color:#c5ab1a;box-shadow:inset 0 3px #ffd43b}.unit-card.warning .badge{background:#ffd43b;color:#393218;padding:3px 6px;border-radius:2px}.unit-card.alarm .badge{color:#c51f2e}
+.process-alerts{display:grid;grid-template-columns:repeat(auto-fit,minmax(0,1fr));gap:12px;margin:0 0 16px}.process-notice{display:flex;align-items:center;flex-wrap:wrap;gap:6px 10px;min-width:0;border:1px solid #e7a4ac;border-left:4px solid #d62936;background:#fff0f1;padding:9px 12px;color:#8e1926;font-size:11px;animation:notice-in .18s ease-out}.process-notice strong{font:600 11px var(--mono);white-space:nowrap}.process-notice>span:last-child{overflow-wrap:anywhere}.notice-state{font-size:10px;font-weight:700;letter-spacing:.4px}.process-notice.warning{border-color:#d9c664;border-left-color:#ffd43b;background:#fff9d6;color:#65520d}@keyframes notice-in{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+/* Desktop monitor uses the viewport; long secondary panels scroll internally. */
+@media(min-width:1000px){
+ body{height:100dvh;overflow:hidden}.app-shell{height:calc(100dvh - var(--preview-height,0px));min-height:0}.sidebar{height:100%;min-height:0;padding:22px 16px 18px;gap:clamp(14px,3vh,30px)}.sidebar-bottom{flex-shrink:0;padding-bottom:2px}.workspace{height:100%;min-height:0}.topbar{flex-shrink:0;min-height:52px;padding:10px 24px}.work-content{max-width:none;margin:0;min-height:0;padding:16px 24px 12px;display:flex;flex-direction:column;gap:clamp(8px,1.3vh,16px)}.section-heading{margin:0;flex-shrink:0}.section-heading h1{font-size:22px}.notice{flex-shrink:0;max-height:65px;overflow:auto;margin:0}.process-alerts{flex-shrink:0;margin:0}.section{min-height:0;flex:1;overflow:auto}#monitor{display:flex;flex-direction:column;gap:clamp(8px,1.2vh,16px);overflow:visible}.overview-stats{flex-shrink:0;margin:0}.overview-stats>div{padding:10px 16px}.overview-stats small{margin-bottom:3px}.overview-stats strong{font-size:23px}#chambers{flex:1;min-height:0;grid-template-rows:minmax(0,1fr);gap:16px}.unit-card{display:flex;flex-direction:column;min-height:0;height:100%}.unit-head{flex-shrink:0;padding:10px 18px}.metrics{flex-shrink:0;padding:12px 18px 0;gap:16px}.value{font-size:clamp(30px,4.6vh,54px);line-height:1.15;margin:3px 0}.meter{margin-top:5px}.metric p{margin-top:5px}.process{display:flex;align-items:center;flex:1;min-height:25px;padding:0 18px;margin:6px 0}.process svg{height:100%;min-height:0;max-height:190px}.unit-meta{flex-shrink:0;padding:0 18px 2px}.unit-meta .row{padding:6px 0;font-size:11px}.unit-actions{flex-shrink:0;padding:10px 18px;gap:6px}.unit-actions button{font-size:10px;min-height:29px;padding:6px 5px}.global{flex-shrink:0;margin:0;padding:10px 16px;flex-direction:row;align-items:center;gap:12px}.global .actions button{font-size:10px;padding:7px 10px}.system-footer{flex-shrink:0;margin:0;padding-top:7px;min-height:22px;line-height:1.3}.system-footer span:last-child{text-align:right}.preview-mode{--preview-height:24px}.preview-banner{height:24px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-top:4px;padding-bottom:4px}
+}
+@media(min-width:1000px) and (max-height:740px){
+ .topbar{min-height:44px;padding:7px 18px}.work-content{padding:10px 18px 8px;gap:7px}.section-heading h1{font-size:19px}.section-heading .sub{margin-top:1px}.sidebar{padding-top:18px;padding-bottom:14px;gap:18px}.tabs button{padding-top:10px;padding-bottom:10px}.overview-stats>div{padding:6px 13px}.overview-stats small{font-size:9px}.overview-stats strong{font-size:20px}.process-notice{padding:6px 10px;font-size:10px}#monitor{gap:8px}.unit-head{padding:7px 14px}.unit-index{padding:3px 5px}.metrics{padding:8px 14px 0;gap:12px}.value{font-size:31px;margin:2px 0}.metric p{font-size:9px;margin-top:3px}.process{min-height:15px;margin:3px 0;padding:0 14px}.unit-meta{padding:0 14px 1px}.unit-meta .row{padding:4px 0;font-size:10px}.unit-actions{padding:7px 14px;gap:5px}.unit-actions button{min-height:26px;padding:4px;font-size:10px}.global{padding:7px 12px}.global .actions button{padding:6px 9px}.global strong{font-size:12px}.system-footer{padding-top:5px;min-height:18px;font-size:8px}
+}
+@media(min-width:1000px){.unit-card{overflow:auto}.metric small{display:block;line-height:1.2}.system-label{font-size:9px;letter-spacing:.4px;white-space:nowrap}.brand small{white-space:nowrap;letter-spacing:1.3px}}
+@media(min-width:1000px) and (max-height:740px){.unit-meta .row{line-height:1.25}.unit-meta .row strong{font-size:10px;line-height:1.25}}
+@media(min-width:1000px) and (max-height:559px){body{height:auto;overflow:auto}.app-shell{height:auto;min-height:100dvh}.workspace{height:auto}.sidebar{height:100dvh;position:sticky;top:0}#chambers{min-height:330px}}
+@media(max-width:600px){.process-alerts{grid-template-columns:1fr}.system-footer{flex-wrap:wrap}.system-footer span:last-child{max-width:100%}}
+.process-notice.alarm .notice-state{background:#d62936;color:#fff;padding:2px 6px;border-radius:2px}.process-notice.warning .notice-state{background:#ffd43b;color:#493c08;padding:2px 6px;border-radius:2px}
+@media(prefers-reduced-motion:reduce){.process-notice{animation:none}}
+</style>
 </head>
-<body>
-  <div class="app-container">
-
-    <!-- ================= NAVBAR ================= -->
-    <header class="navbar">
-      <div class="nav-brand">
-        <div class="brand-icon">&#9889;</div>
-        <div>
-          <h1 class="brand-title">PLTU STEAM BOILER SCADA</h1>
-          <p class="brand-sub">Enterprise Multi-Chamber Safety Controller &bull; WMLTA</p>
-        </div>
-      </div>
-
-      <!-- React Style Tab Switcher -->
-      <nav class="nav-tabs">
-        <button class="tab-item active" onclick="switchTab('tab-monitoring')">
-          <span>&#127915;</span> Monitoring
-        </button>
-        <button class="tab-item" onclick="switchTab('tab-analytics')">
-          <span>&#128200;</span> Grafik Realtime
-        </button>
-        <button class="tab-item" onclick="switchTab('tab-events')">
-          <span>&#128203;</span> Log Kejadian
-        </button>
-        <button class="tab-item" onclick="switchTab('tab-diag')">
-          <span>&#9881;</span> Diagnostik
-        </button>
-      </nav>
-
-      <div class="nav-tools">
-        <div class="status-badge mono">
-          <span class="pulse-dot" id="liveDot"></span>
-          <span id="netStatusText">ONLINE</span>
-        </div>
-        <button class="btn-icon mono" onclick="toggleTheme()" id="themeBtn" title="Ganti Tema">
-          <span id="themeIcon">&#9728;</span> <span id="themeLabel">Light</span>
-        </button>
-        <button class="btn-icon mono" onclick="toggleAudio()" id="audioBtn" title="Suara Alarm">
-          <span id="audioIcon">&#128266;</span> <span id="audioLabel">Audio: ON</span>
-        </button>
-      </div>
-    </header>
-
-    <!-- ================= HERO KPI STATS ================= -->
-    <section class="kpi-row">
-      <div class="kpi-chip kpi-emerald">
-        <div>
-          <div class="kpi-title">Status Sistem</div>
-          <div class="kpi-value" id="kpiStatusVal" style="color:var(--emerald);">NORMAL</div>
-        </div>
-        <span class="kpi-pill state-normal mono" id="kpiStatusPill">FAILSAFE READY</span>
-      </div>
-
-      <div class="kpi-chip kpi-amber">
-        <div>
-          <div class="kpi-title">Ambang Batas (Master RV5)</div>
-          <div class="kpi-value mono" id="kpiSetpointVal">4.0 Bar / 160&deg;C</div>
-        </div>
-        <span class="kpi-pill mono" style="background:rgba(245, 158, 11, 0.15); color:var(--amber);">SYNC 100%</span>
-      </div>
-
-      <div class="kpi-chip kpi-cyan">
-        <div>
-          <div class="kpi-title">Koneksi Slave (UART)</div>
-          <div class="kpi-value mono" id="kpiLinkVal">2 / 2 Active</div>
-        </div>
-        <span class="kpi-pill mono" style="background:rgba(6, 182, 212, 0.15); color:var(--cyan);">9600 BAUD</span>
-      </div>
-
-      <div class="kpi-chip">
-        <div>
-          <div class="kpi-title">Siklus Polling & Klien</div>
-          <div class="kpi-value mono" id="kpiPollVal">600 ms &bull; 1 Klien</div>
-        </div>
-        <span class="kpi-pill state-normal mono">REST API OK</span>
-      </div>
-    </section>
-
-    <!-- ================= TAB CONTENT 1: MONITORING ================= -->
-    <main id="tab-monitoring" class="chamber-grid">
-
-      <!-- BOILER CHAMBER 1 -->
-      <article class="chamber-card" id="cardB1">
-        <div class="card-header">
-          <div class="card-title-group">
-            <div class="unit-tag">01</div>
-            <div>
-              <h2 class="card-title-text">BOILER CHAMBER 1</h2>
-              <span class="card-subtitle-text mono">UART 1 &bull; ARDUINO NANO 1 (SLAVE 1)</span>
-            </div>
-          </div>
-          <span class="state-pill state-normal mono" id="b1StatePill">NORMAL</span>
-        </div>
-
-        <div class="telemetry-row">
-          <!-- Tekanan Radial Gauge -->
-          <div class="gauge-box">
-            <div class="gauge-top">
-              <span class="gauge-label">Tekanan Uap</span>
-              <span class="source-badge mono" id="b1SrcP">TRANSDUCER (REAL)</span>
-            </div>
-            <div class="radial-gauge">
-              <svg viewBox="0 0 100 65">
-                <path class="gauge-bg" d="M 15 55 A 35 35 0 0 1 85 55" />
-                <path class="gauge-fill" id="b1PressArc" d="M 15 55 A 35 35 0 0 1 85 55" />
-              </svg>
-              <div class="gauge-center-text">
-                <div class="gauge-value mono" id="b1PressVal">0.00</div>
-                <div class="gauge-unit">BAR (0 - 8.0)</div>
-              </div>
-            </div>
-            <div class="gauge-footer-text mono">
-              <span>0.0 Bar</span>
-              <span id="b1PressPct">0% TH</span>
-              <span>8.0 Bar</span>
-            </div>
-          </div>
-
-          <!-- Suhu Radial Gauge -->
-          <div class="gauge-box">
-            <div class="gauge-top">
-              <span class="gauge-label">Suhu Boiler</span>
-              <span class="source-badge mono" id="b1SrcT">MAX6675 (REAL)</span>
-            </div>
-            <div class="radial-gauge">
-              <svg viewBox="0 0 100 65">
-                <path class="gauge-bg" d="M 15 55 A 35 35 0 0 1 85 55" />
-                <path class="gauge-fill" id="b1TempArc" style="stroke:var(--amber);" d="M 15 55 A 35 35 0 0 1 85 55" />
-              </svg>
-              <div class="gauge-center-text">
-                <div class="gauge-value mono" id="b1TempVal">0.0</div>
-                <div class="gauge-unit">&deg;CELCIUS</div>
-              </div>
-            </div>
-            <div class="gauge-footer-text mono">
-              <span>0 &deg;C</span>
-              <span id="b1TempPct">0% TH</span>
-              <span>200 &deg;C</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Katup Solenoid & Buzzer Widget -->
-        <div class="pipe-schematic-card">
-          <div class="valve-visual-wrap">
-            <div class="valve-icon-badge valve-closed" id="b1ValveBadge">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <circle cx="12" cy="12" r="3"></circle>
-                <path d="M3 12h6m6 0h6"></path>
-                <path d="M12 3v6m0 6v6"></path>
-              </svg>
-            </div>
-            <div>
-              <div class="valve-details-title">Katup Solenoid Relief</div>
-              <div class="valve-details-state mono" id="b1ValveState" style="color:var(--emerald);">TERTUTUP (0&deg;) - SEALED</div>
-            </div>
-          </div>
-
-          <div class="buzzer-indicator">
-            <div class="buzzer-icon" id="b1BuzzerIcon">&#128276;</div>
-            <div>
-              <div style="font-size:0.65rem; color:var(--text-dim);">BUZZER</div>
-              <div class="mono" id="b1BuzzerText" style="color:var(--text-muted);">STANDBY</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Action Controls -->
-        <div class="action-button-group">
-          <button class="app-btn btn-maroon" onclick="sendCmd(1, 'PURGE,1')">
-            <span>&#128168;</span> Manual Purge
-          </button>
-          <button class="app-btn btn-slate" onclick="sendCmd(1, 'PURGE,0')">
-            <span>&#128274;</span> Tutup Katup
-          </button>
-          <button class="app-btn btn-slate" onclick="sendCmd(1, 'MUTE,1')">
-            <span>&#128277;</span> Mute Buzzer
-          </button>
-        </div>
-      </article>
-
-      <!-- BOILER CHAMBER 2 -->
-      <article class="chamber-card" id="cardB2">
-        <div class="card-header">
-          <div class="card-title-group">
-            <div class="unit-tag" style="color:var(--amber);">02</div>
-            <div>
-              <h2 class="card-title-text">BOILER CHAMBER 2</h2>
-              <span class="card-subtitle-text mono">UART 2 &bull; ARDUINO NANO 2 (SLAVE 2)</span>
-            </div>
-          </div>
-          <span class="state-pill state-normal mono" id="b2StatePill">NORMAL</span>
-        </div>
-
-        <div class="telemetry-row">
-          <!-- Tekanan Radial Gauge -->
-          <div class="gauge-box">
-            <div class="gauge-top">
-              <span class="gauge-label">Tekanan Uap</span>
-              <span class="source-badge mono" id="b2SrcP">TRANSDUCER (REAL)</span>
-            </div>
-            <div class="radial-gauge">
-              <svg viewBox="0 0 100 65">
-                <path class="gauge-bg" d="M 15 55 A 35 35 0 0 1 85 55" />
-                <path class="gauge-fill" id="b2PressArc" d="M 15 55 A 35 35 0 0 1 85 55" />
-              </svg>
-              <div class="gauge-center-text">
-                <div class="gauge-value mono" id="b2PressVal">0.00</div>
-                <div class="gauge-unit">BAR (0 - 8.0)</div>
-              </div>
-            </div>
-            <div class="gauge-footer-text mono">
-              <span>0.0 Bar</span>
-              <span id="b2PressPct">0% TH</span>
-              <span>8.0 Bar</span>
-            </div>
-          </div>
-
-          <!-- Suhu Radial Gauge -->
-          <div class="gauge-box">
-            <div class="gauge-top">
-              <span class="gauge-label">Suhu Boiler</span>
-              <span class="source-badge mono" id="b2SrcT">MAX6675 (REAL)</span>
-            </div>
-            <div class="radial-gauge">
-              <svg viewBox="0 0 100 65">
-                <path class="gauge-bg" d="M 15 55 A 35 35 0 0 1 85 55" />
-                <path class="gauge-fill" id="b2TempArc" style="stroke:var(--amber);" d="M 15 55 A 35 35 0 0 1 85 55" />
-              </svg>
-              <div class="gauge-center-text">
-                <div class="gauge-value mono" id="b2TempVal">0.0</div>
-                <div class="gauge-unit">&deg;CELCIUS</div>
-              </div>
-            </div>
-            <div class="gauge-footer-text mono">
-              <span>0 &deg;C</span>
-              <span id="b2TempPct">0% TH</span>
-              <span>200 &deg;C</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Katup Solenoid & Buzzer Widget -->
-        <div class="pipe-schematic-card">
-          <div class="valve-visual-wrap">
-            <div class="valve-icon-badge valve-closed" id="b2ValveBadge">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <circle cx="12" cy="12" r="3"></circle>
-                <path d="M3 12h6m6 0h6"></path>
-                <path d="M12 3v6m0 6v6"></path>
-              </svg>
-            </div>
-            <div>
-              <div class="valve-details-title">Katup Solenoid Relief</div>
-              <div class="valve-details-state mono" id="b2ValveState" style="color:var(--emerald);">TERTUTUP (0&deg;) - SEALED</div>
-            </div>
-          </div>
-
-          <div class="buzzer-indicator">
-            <div class="buzzer-icon" id="b2BuzzerIcon">&#128276;</div>
-            <div>
-              <div style="font-size:0.65rem; color:var(--text-dim);">BUZZER</div>
-              <div class="mono" id="b2BuzzerText" style="color:var(--text-muted);">STANDBY</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Action Controls -->
-        <div class="action-button-group">
-          <button class="app-btn btn-maroon" onclick="sendCmd(2, 'PURGE,1')">
-            <span>&#128168;</span> Manual Purge
-          </button>
-          <button class="app-btn btn-slate" onclick="sendCmd(2, 'PURGE,0')">
-            <span>&#128274;</span> Tutup Katup
-          </button>
-          <button class="app-btn btn-slate" onclick="sendCmd(2, 'MUTE,1')">
-            <span>&#128277;</span> Mute Buzzer
-          </button>
-        </div>
-      </article>
-
-    </main>
-
-    <!-- ================= TAB CONTENT 2: ANALYTICS & LIVE CHART ================= -->
-    <section id="tab-analytics" class="chart-card" style="display:none;">
-      <div class="chart-header">
-        <div>
-          <h2 style="font-size:1.1rem; font-weight:800;">TREN TELEMETRI TEKANAN REAL-TIME</h2>
-          <p style="font-size:0.75rem; color:var(--text-muted);">Live Canvas 60 FPS &bull; Interval Update 600ms &bull; Zero-Lag Local Rendering</p>
-        </div>
-        <div class="chart-legend mono">
-          <div class="legend-item"><div class="legend-box" style="background:var(--cyan);"></div> Boiler 1 (Bar)</div>
-          <div class="legend-item"><div class="legend-box" style="background:var(--violet);"></div> Boiler 2 (Bar)</div>
-          <div class="legend-item"><div class="legend-box" style="background:var(--crimson);"></div> Ambang Batas Setpoint</div>
-        </div>
-      </div>
-      <div class="canvas-container">
-        <canvas id="liveChartCanvas"></canvas>
-      </div>
-    </section>
-
-    <!-- ================= TAB CONTENT 3: EVENT LOGS ================= -->
-    <section id="tab-events" class="log-card" style="display:none;">
-      <div style="display:flex; justify-content:space-between; align-items:center;">
-        <div>
-          <h2 style="font-size:1.1rem; font-weight:800;">RIWAYAT KEJADIAN & PERINGATAN SISTEM</h2>
-          <p style="font-size:0.75rem; color:var(--text-muted);">Audit log operasional, perubahan katup, dan pemicu alarm</p>
-        </div>
-        <button class="btn-icon mono" onclick="clearEventLogs()">Bersihkan Log</button>
-      </div>
-      <div class="log-table-wrap">
-        <table class="log-table mono">
-          <thead>
-            <tr>
-              <th>WAKTU</th>
-              <th>NODE</th>
-              <th>EVENT / STATUS</th>
-              <th>PARAMETER</th>
-              <th>KATUP</th>
-            </tr>
-          </thead>
-          <tbody id="logTableBody">
-            <tr><td colspan="5" style="text-align:center; color:var(--text-dim); padding:1.5rem;">Belum ada log tercatat...</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- ================= TAB CONTENT 4: DIAGNOSTICS ================= -->
-    <section id="tab-diag" class="diag-grid" style="display:none;">
-      <div class="diag-card">
-        <h3 style="font-weight:800; font-size:1rem; border-bottom:1px solid var(--border); padding-bottom:0.5rem;">HARDWARE MASTER (ESP32-S3)</h3>
-        <div class="diag-item"><span>Chip Controller</span><span class="mono">ESP32-S3-WROOM-1 (N8R2)</span></div>
-        <div class="diag-item"><span>Flash / PSRAM</span><span class="mono">8MB Flash / 2MB Quad PSRAM</span></div>
-        <div class="diag-item"><span>Display SPI</span><span class="mono">ST7789 1.47" (320x172 Horizontal)</span></div>
-        <div class="diag-item"><span>SPI Clock Bus</span><span class="mono">40 MHz Hardware SPI</span></div>
-        <div class="diag-item"><span>Master Uptime</span><span class="mono" id="diagUptime">--:--:--</span></div>
-      </div>
-
-      <div class="diag-card">
-        <h3 style="font-weight:800; font-size:1rem; border-bottom:1px solid var(--border); padding-bottom:0.5rem;">JARINGAN & KOMUNIKASI</h3>
-        <div class="diag-item"><span>Mode WiFi</span><span class="mono">Standalone SoftAP (192.168.4.1)</span></div>
-        <div class="diag-item"><span>SSID Hotspot</span><span class="mono">SCADA_BOILER_PLTU</span></div>
-        <div class="diag-item"><span>Klien Terhubung</span><span class="mono" id="diagClients">1 Perangkat</span></div>
-        <div class="diag-item"><span>Protokol Slave</span><span class="mono">Dual Hardware UART (9600 8N1)</span></div>
-        <div class="diag-item"><span>Heartbeat Sync</span><span class="mono">1000 ms (Setpoint Auto-Broadcast)</span></div>
-      </div>
-
-      <div class="diag-card">
-        <h3 style="font-weight:800; font-size:1rem; border-bottom:1px solid var(--border); padding-bottom:0.5rem;">FAILSAFE & PROTEKSI OTOMATIS</h3>
-        <div class="diag-item"><span>Safety Latched Buzzer</span><span class="mono" style="color:var(--emerald);">ENABLED (Kontinu)</span></div>
-        <div class="diag-item"><span>Pressure Hysteresis</span><span class="mono">0.20 Bar (Anti-Chatter)</span></div>
-        <div class="diag-item"><span>Temperature Hysteresis</span><span class="mono">3.0 &deg;C</span></div>
-        <div class="diag-item"><span>Watchdog Link Slave</span><span class="mono">3000 ms Timeout</span></div>
-      </div>
-    </section>
-
-    <!-- ================= EMERGENCY MASTER SAFETY OVERRIDE ================= -->
-    <section class="emergency-console">
-      <div class="emergency-text-group">
-        <div class="emergency-badge-icon">&#9888;</div>
-        <div>
-          <h3 class="emergency-heading">MASTER SAFETY OVERRIDE CONSOLE</h3>
-          <p class="emergency-subheading">
-            Protokol Darurat PLTU: Buka serentak seluruh katup relief pembuang uap dan bypass kontrol otomatis untuk meredakan overpressure seketika.
-          </p>
-        </div>
-      </div>
-
-      <div class="emergency-btn-group">
-        <button class="btn-emergency-action" onclick="openEmergencyModal()">
-          <span>&#128680;</span> EMERGENCY ALL-PURGE
-        </button>
-        <button class="app-btn btn-slate" style="padding:0.75rem 1.25rem;" onclick="sendCmd(0, 'PURGE,0')">
-          <span>&#128274;</span> TUTUP SEMUA KATUP
-        </button>
-        <button class="app-btn btn-slate" style="padding:0.75rem 1.25rem;" onclick="sendCmd(0, 'MUTE,1')">
-          <span>&#128277;</span> SILENCE ALARMS
-        </button>
-      </div>
-    </section>
-
-  </div>
-
-  <!-- ================= REACT-LIKE CONFIRMATION MODAL ================= -->
-  <div class="modal-overlay" id="confirmModal">
-    <div class="modal-dialog">
-      <div style="font-size:2rem; margin-bottom:0.5rem;">&#9888;</div>
-      <h3 style="font-size:1.15rem; font-weight:800; color:var(--crimson); margin-bottom:0.5rem;">
-        Konfirmasi Emergency All-Purge?
-      </h3>
-      <p style="font-size:0.8rem; color:var(--text-muted); line-height:1.5; margin-bottom:1.25rem;">
-        Perintah ini akan membuka seluruh katup solenoid servo di <strong>Boiler 1 dan Boiler 2</strong> secara serentak untuk membuang uap. Anda yakin ingin melanjutkan?
-      </p>
-      <div style="display:flex; gap:0.75rem;">
-        <button class="app-btn btn-maroon" style="flex:1;" onclick="confirmEmergencyPurge()">
-          Ya, Buka Semua Katup
-        </button>
-        <button class="app-btn btn-slate" style="flex:1;" onclick="closeEmergencyModal()">
-          Batal
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ================= FLOATING TOAST STACK ================= -->
-  <div class="toast-container" id="toastBox"></div>
-
-  <!-- ==========================================================================
-       VANILLA REACT-STYLE APPLICATION STATE & CONTROLLER
-       ========================================================================== -->
-  <script>
-    // --------------------------------------------------------------------------
-    // STATE STORE
-    // --------------------------------------------------------------------------
-    const State = {
-      theme: 'dark',
-      sound: true,
-      activeTab: 'tab-monitoring',
-      currentSetP: 4.0,
-      currentSetT: 160.0,
-      audioCtx: null,
-      lastAlarmB1: false,
-      lastAlarmB2: false,
-      history: {
-        times: [],
-        p1: [],
-        p2: [],
-        sp: []
-      },
-      events: []
-    };
-
-    // --------------------------------------------------------------------------
-    // TAB CONTROLLER
-    // --------------------------------------------------------------------------
-    function switchTab(tabId) {
-      State.activeTab = tabId;
-      document.querySelectorAll('.tab-item').forEach(el => el.classList.remove('active'));
-      const activeBtn = Array.from(document.querySelectorAll('.tab-item')).find(b => b.getAttribute('onclick').includes(tabId));
-      if (activeBtn) activeBtn.classList.add('active');
-
-      ['tab-monitoring', 'tab-analytics', 'tab-events', 'tab-diag'].forEach(id => {
-        const sec = document.getElementById(id);
-        if (sec) sec.style.display = (id === tabId) ? (id === 'tab-monitoring' ? 'grid' : 'flex') : 'none';
-      });
-
-      if (tabId === 'tab-analytics') drawChart();
-      playBeep(700, 0.04);
-    }
-
-    // --------------------------------------------------------------------------
-    // THEME & SOUND CONTROLLERS
-    // --------------------------------------------------------------------------
-    function toggleTheme() {
-      State.theme = State.theme === 'dark' ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-theme', State.theme);
-      document.getElementById('themeIcon').innerText = State.theme === 'dark' ? '&#9728;' : '&#9790;';
-      document.getElementById('themeLabel').innerText = State.theme === 'dark' ? 'Light' : 'Dark';
-      showToast(`Tema beralih ke Mode ${State.theme.toUpperCase()}`);
-      if (State.activeTab === 'tab-analytics') drawChart();
-    }
-
-    function toggleAudio() {
-      State.sound = !State.sound;
-      document.getElementById('audioIcon').innerText = State.sound ? '&#128266;' : '&#128263;';
-      document.getElementById('audioLabel').innerText = State.sound ? 'Audio: ON' : 'Audio: OFF';
-      showToast(`Audio alarm ${State.sound ? 'diaktifkan' : 'dimatikan'}`);
-    }
-
-    function playBeep(freq = 880, duration = 0.12) {
-      if (!State.sound) return;
-      try {
-        if (!State.audioCtx) State.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        if (State.audioCtx.state === 'suspended') State.audioCtx.resume();
-        const osc = State.audioCtx.createOscillator();
-        const gain = State.audioCtx.createGain();
-        osc.type = 'sine';
-        osc.frequency.value = freq;
-        gain.gain.setValueAtTime(0.08, State.audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, State.audioCtx.currentTime + duration);
-        osc.connect(gain);
-        gain.connect(State.audioCtx.destination);
-        osc.start();
-        osc.stop(State.audioCtx.currentTime + duration);
-      } catch(e) {}
-    }
-
-    // --------------------------------------------------------------------------
-    // TOAST NOTIFICATIONS
-    // --------------------------------------------------------------------------
-    function showToast(msg, icon = '&#8505;') {
-      const box = document.getElementById('toastBox');
-      const toast = document.createElement('div');
-      toast.className = 'toast-card';
-      toast.innerHTML = `<span>${icon}</span> <span>${msg}</span>`;
-      box.appendChild(toast);
-      setTimeout(() => {
-        toast.style.opacity = '0';
-        toast.style.transform = 'translateY(10px)';
-        toast.style.transition = 'all 0.3s ease';
-        setTimeout(() => toast.remove(), 300);
-      }, 2800);
-    }
-
-    // --------------------------------------------------------------------------
-    // MODAL DIALOG CONTROLLER
-    // --------------------------------------------------------------------------
-    function openEmergencyModal() {
-      document.getElementById('confirmModal').classList.add('open');
-      playBeep(440, 0.2);
-    }
-    function closeEmergencyModal() {
-      document.getElementById('confirmModal').classList.remove('open');
-    }
-    function confirmEmergencyPurge() {
-      closeEmergencyModal();
-      sendCmd(0, 'PURGE,1');
-    }
-
-    // --------------------------------------------------------------------------
-    // EVENT LOGGER
-    // --------------------------------------------------------------------------
-    function addEventLog(node, status, param, valve) {
-      const now = new Date();
-      const timeStr = now.toTimeString().split(' ')[0];
-      State.events.unshift({ time: timeStr, node, status, param, valve });
-      if (State.events.length > 50) State.events.pop();
-      renderEventLogs();
-    }
-
-    function renderEventLogs() {
-      const tbody = document.getElementById('logTableBody');
-      if (State.events.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:var(--text-dim); padding:1.5rem;">Belum ada log tercatat...</td></tr>';
-        return;
-      }
-      tbody.innerHTML = State.events.map(ev => `
-        <tr>
-          <td style="color:var(--text-muted);">${ev.time}</td>
-          <td style="font-weight:700;">${ev.node}</td>
-          <td><span class="state-pill ${ev.status.includes('ALARM') ? 'state-alarm' : ev.status.includes('WARN') ? 'state-warning' : 'state-normal'}">${ev.status}</span></td>
-          <td>${ev.param}</td>
-          <td style="color:${ev.valve === 'OPEN' ? 'var(--crimson)' : 'var(--emerald)'}; font-weight:700;">${ev.valve === 'OPEN' ? 'TERBUKA' : 'TERTUTUP'}</td>
-        </tr>
-      `).join('');
-    }
-
-    function clearEventLogs() {
-      State.events = [];
-      renderEventLogs();
-      showToast('Riwayat log berhasil dibersihkan');
-    }
-
-    // --------------------------------------------------------------------------
-    // RADIAL GAUGE CALCULATOR (SVG Arc Math)
-    // Semicircle perimeter for r=35 is Math.PI * 35 = 110.0
-    // --------------------------------------------------------------------------
-    function updateRadialGauge(arcId, value, maxVal, isWarn, isDanger) {
-      const arc = document.getElementById(arcId);
-      if (!arc) return;
-      const arcLen = 110.0;
-      const ratio = Math.min(Math.max(value / maxVal, 0), 1);
-      const offset = arcLen * (1 - ratio);
-      arc.style.strokeDasharray = `${arcLen}`;
-      arc.style.strokeDashoffset = `${offset}`;
-
-      arc.classList.remove('warn', 'danger');
-      if (isDanger) arc.classList.add('danger');
-      else if (isWarn) arc.classList.add('warn');
-    }
-
-    // --------------------------------------------------------------------------
-    // TELEMETRY FETCHER & REACTION ENGINE
-    // --------------------------------------------------------------------------
-    async function updateTelemetry() {
-      try {
-        const res = await fetch('/api/data');
-        if (!res.ok) throw new Error('HTTP ' + res.status);
-        const d = await res.json();
-
-        // 1. Connection status
-        document.getElementById('liveDot').classList.remove('offline');
-        document.getElementById('netStatusText').innerText = `ONLINE (${d.ap_clients || 1} Klien)`;
-
-        // 2. Setpoint
-        State.currentSetP = d.setpoint_p || 4.0;
-        State.currentSetT = d.setpoint_t || 160.0;
-        document.getElementById('kpiSetpointVal').innerText = `${State.currentSetP.toFixed(1)} Bar / ${Math.round(State.currentSetT)}&deg;C`;
-
-        // 3. Update Chamber 1 & 2
-        updateChamber(1, d.slave1);
-        updateChamber(2, d.slave2);
-
-        // 4. Update Global Status KPI
-        const isAnyAlarm = (d.slave1 && d.slave1.state === 'ALARM') || (d.slave2 && d.slave2.state === 'ALARM');
-        const isAnyWarn  = (d.slave1 && d.slave1.state === 'WARNING') || (d.slave2 && d.slave2.state === 'WARNING');
-        const kpiVal = document.getElementById('kpiStatusVal');
-        const kpiPill = document.getElementById('kpiStatusPill');
-
-        if (isAnyAlarm) {
-          kpiVal.innerText = '&#128680; ALARM DARURAT';
-          kpiVal.style.color = 'var(--crimson)';
-          kpiPill.innerText = 'OVERPRESSURE';
-          kpiPill.className = 'kpi-pill state-alarm mono';
-          playBeep(920, 0.35);
-        } else if (isAnyWarn) {
-          kpiVal.innerText = '&#9888; PERINGATAN';
-          kpiVal.style.color = 'var(--amber)';
-          kpiPill.innerText = 'MENDEKATI BATAS';
-          kpiPill.className = 'kpi-pill state-warning mono';
-        } else {
-          kpiVal.innerText = 'NORMAL';
-          kpiVal.style.color = 'var(--emerald)';
-          kpiPill.innerText = 'SISTEM STABIL';
-          kpiPill.className = 'kpi-pill state-normal mono';
-        }
-
-        // 5. Diagnostics & Klien
-        const activeUnits = (d.slave1 && d.slave1.connected ? 1 : 0) + (d.slave2 && d.slave2.connected ? 1 : 0);
-        document.getElementById('kpiLinkVal').innerText = `${activeUnits} / 2 Active`;
-        if (d.uptime) {
-          const sec = d.uptime;
-          const upStr = `${String(Math.floor(sec/3600)).padStart(2,'0')}:${String(Math.floor((sec%3600)/60)).padStart(2,'0')}:${String(sec%60).padStart(2,'0')}`;
-          document.getElementById('diagUptime').innerText = upStr;
-        }
-        if (d.ap_clients !== undefined) {
-          document.getElementById('diagClients').innerText = `${d.ap_clients} Perangkat`;
-          document.getElementById('kpiPollVal').innerText = `600 ms &bull; ${d.ap_clients} Klien`;
-        }
-
-        // 6. Push to historical buffer for Canvas Chart
-        const nowStr = new Date().toTimeString().split(' ')[0];
-        State.history.times.push(nowStr);
-        State.history.p1.push(d.slave1 ? d.slave1.pressure : 0);
-        State.history.p2.push(d.slave2 ? d.slave2.pressure : 0);
-        State.history.sp.push(State.currentSetP);
-        if (State.history.times.length > 30) {
-          State.history.times.shift();
-          State.history.p1.shift();
-          State.history.p2.shift();
-          State.history.sp.shift();
-        }
-
-        if (State.activeTab === 'tab-analytics') drawChart();
-
-      } catch (err) {
-        document.getElementById('liveDot').classList.add('offline');
-        document.getElementById('netStatusText').innerText = 'OFFLINE (LOST LINK)';
-      }
-    }
-
-    function updateChamber(id, data) {
-      const prefix = `b${id}`;
-      const cardEl = document.getElementById(`cardB${id}`);
-      if (!data || data.connected === false) {
-        // Offline Chamber Handling
-        document.getElementById(`${prefix}StatePill`).innerText = 'OFFLINE';
-        document.getElementById(`${prefix}StatePill`).className = 'state-pill state-offline mono';
-        cardEl.classList.remove('is-alarm');
-        document.getElementById(`${prefix}PressVal`).innerText = '--';
-        document.getElementById(`${prefix}TempVal`).innerText = '--';
-        document.getElementById(`${prefix}ValveState`).innerText = 'TIDAK TERHUBUNG';
-        document.getElementById(`${prefix}ValveState`).style.color = 'var(--text-dim)';
-        document.getElementById(`${prefix}ValveBadge`).className = 'valve-icon-badge';
-        document.getElementById(`${prefix}BuzzerText`).innerText = 'OFFLINE';
-        updateRadialGauge(`${prefix}PressArc`, 0, 8.0, false, false);
-        updateRadialGauge(`${prefix}TempArc`, 0, 200.0, false, false);
-        return;
-      }
-
-      const p = data.pressure || 0;
-      const t = data.temp || 0;
-      const isOverP = (p >= State.currentSetP);
-      const isWarnP = (p >= State.currentSetP * 0.85);
-      const isOverT = (t >= State.currentSetT);
-      const isWarnT = (t >= State.currentSetT * 0.90);
-
-      // Display Values
-      document.getElementById(`${prefix}PressVal`).innerText = p.toFixed(2);
-      document.getElementById(`${prefix}TempVal`).innerText = (t >= 900.0) ? 'ERR' : t.toFixed(1);
-
-      // Gauge Percentages
-      const pctP = Math.round((p / State.currentSetP) * 100);
-      const pctT = Math.round((t / State.currentSetT) * 100);
-      document.getElementById(`${prefix}PressPct`).innerText = `${pctP}% TH`;
-      document.getElementById(`${prefix}TempPct`).innerText = `${pctT}% TH`;
-
-      // Update Radials
-      updateRadialGauge(`${prefix}PressArc`, p, 8.0, isWarnP, isOverP);
-      updateRadialGauge(`${prefix}TempArc`, t, 200.0, isWarnT, isOverT);
-
-      // Sensor Source Tags
-      const srcPEl = document.getElementById(`${prefix}SrcP`);
-      srcPEl.innerText = data.src_p === 'SIM' ? 'POTENSIO (SIM)' : 'TRANSDUCER (REAL)';
-      srcPEl.className = 'source-badge mono' + (data.src_p === 'SIM' ? ' sim' : '');
-
-      const srcTEl = document.getElementById(`${prefix}SrcT`);
-      srcTEl.innerText = data.src_t === 'SIM' ? 'POTENSIO (SIM)' : 'MAX6675 (REAL)';
-      srcTEl.className = 'source-badge mono' + (data.src_t === 'SIM' ? ' sim' : '');
-
-      // Solenoid Valve State
-      const isValveOpen = (data.valve === 'OPEN');
-      const valveText = document.getElementById(`${prefix}ValveState`);
-      const valveBadge = document.getElementById(`${prefix}ValveBadge`);
-      if (isValveOpen) {
-        valveText.innerText = 'TERBUKA (90&deg;) - EXHAUST ACTIVE';
-        valveText.style.color = 'var(--crimson)';
-        valveBadge.className = 'valve-icon-badge valve-open';
-      } else {
-        valveText.innerText = 'TERTUTUP (0&deg;) - SEALED';
-        valveText.style.color = 'var(--emerald)';
-        valveBadge.className = 'valve-icon-badge valve-closed';
-      }
-
-      // Buzzer State
-      const bzIcon = document.getElementById(`${prefix}BuzzerIcon`);
-      const bzText = document.getElementById(`${prefix}BuzzerText`);
-      if (data.buzzer) {
-        bzIcon.className = 'buzzer-icon active';
-        bzText.innerText = 'BERBUNYI (ALARM)';
-        bzText.style.color = 'var(--crimson)';
-      } else {
-        bzIcon.className = 'buzzer-icon';
-        bzText.innerText = 'STANDBY';
-        bzText.style.color = 'var(--text-muted)';
-      }
-
-      // Card Container Alarm State
-      const statePill = document.getElementById(`${prefix}StatePill`);
-      statePill.innerText = data.state || 'NORMAL';
-      cardEl.classList.remove('is-alarm');
-
-      if (data.state === 'ALARM') {
-        statePill.className = 'state-pill state-alarm mono';
-        cardEl.classList.add('is-alarm');
-        if ((id === 1 && !State.lastAlarmB1) || (id === 2 && !State.lastAlarmB2)) {
-          addEventLog(`BOILER ${id}`, '&#128680; ALARM DARURAT', `${p.toFixed(2)} Bar / ${t.toFixed(1)}&deg;C`, data.valve);
-        }
-      } else if (data.state === 'WARNING') {
-        statePill.className = 'state-pill state-warning mono';
-      } else {
-        statePill.className = 'state-pill state-normal mono';
-      }
-
-      if (id === 1) State.lastAlarmB1 = (data.state === 'ALARM');
-      if (id === 2) State.lastAlarmB2 = (data.state === 'ALARM');
-    }
-
-    // --------------------------------------------------------------------------
-    // ACTION COMMAND SENDER (Optimistic Feedback)
-    // --------------------------------------------------------------------------
-    async function sendCmd(nodeId, action) {
-      playBeep(650, 0.08);
-      const targetLabel = nodeId === 0 ? 'Semua Boiler' : `Boiler ${nodeId}`;
-      showToast(`Mengirim perintah [${action}] ke ${targetLabel}...`);
-      try {
-        await fetch(`/api/command?node=${nodeId}&action=${action}`);
-        addEventLog(targetLabel, 'COMMAND EXECUTED', action, action.includes('PURGE,1') ? 'OPEN' : 'CLOSED');
-        setTimeout(updateTelemetry, 150);
-      } catch (err) {
-        showToast(`&#10060; Gagal mengirim perintah ke ${targetLabel}`);
-      }
-    }
-
-    // --------------------------------------------------------------------------
-    // CANVAS CHART ENGINE (Native 60 FPS Canvas without external libs)
-    // --------------------------------------------------------------------------
-    function drawChart() {
-      const canvas = document.getElementById('liveChartCanvas');
-      if (!canvas) return;
-      const ctx = canvas.getContext('2d');
-      const w = canvas.parentElement.clientWidth;
-      const h = canvas.parentElement.clientHeight;
-      canvas.width = w;
-      canvas.height = h;
-
-      ctx.clearRect(0, 0, w, h);
-
-      // Grid background
-      const padding = { top: 25, right: 30, bottom: 35, left: 45 };
-      const plotW = w - padding.left - padding.right;
-      const plotH = h - padding.top - padding.bottom;
-
-      ctx.strokeStyle = State.theme === 'dark' ? '#334155' : '#e2e8f0';
-      ctx.lineWidth = 1;
-
-      // Horizontal grid lines (0 to 8 Bar)
-      for (let bar = 0; bar <= 8; bar += 2) {
-        const y = padding.top + plotH - (bar / 8.0) * plotH;
-        ctx.beginPath();
-        ctx.moveTo(padding.left, y);
-        ctx.lineTo(w - padding.right, y);
-        ctx.stroke();
-
-        ctx.fillStyle = '#64748b';
-        ctx.font = '10px "SF Mono", monospace';
-        ctx.textAlign = 'right';
-        ctx.fillText(`${bar}B`, padding.left - 8, y + 3);
-      }
-
-      if (State.history.p1.length < 2) return;
-
-      const n = State.history.p1.length;
-      const xStep = plotW / (n - 1);
-
-      // Helper to draw a line plot
-      function plotLine(data, color, isDashed = false) {
-        ctx.strokeStyle = color;
-        ctx.lineWidth = isDashed ? 1.5 : 2.5;
-        if (isDashed) ctx.setLineDash([4, 4]); else ctx.setLineDash([]);
-        ctx.beginPath();
-        for (let i = 0; i < n; i++) {
-          const x = padding.left + i * xStep;
-          const y = padding.top + plotH - (Math.min(data[i] / 8.0, 1.0)) * plotH;
-          if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-        }
-        ctx.stroke();
-        ctx.setLineDash([]);
-      }
-
-      // Plot Setpoint Threshold (Dashed Red)
-      plotLine(State.history.sp, '#ef4444', true);
-      // Plot Boiler 1 (Cyan)
-      plotLine(State.history.p1, '#06b6d4', false);
-      // Plot Boiler 2 (Violet)
-      plotLine(State.history.p2, '#8b5cf6', false);
-    }
-
-    // --------------------------------------------------------------------------
-    // STARTUP
-    // --------------------------------------------------------------------------
-    window.addEventListener('resize', () => {
-      if (State.activeTab === 'tab-analytics') drawChart();
-    });
-
-    setInterval(updateTelemetry, 600);
-    updateTelemetry();
-  </script>
-</body>
-</html>
-
-)rawliteral";
-
-#endif // DASHBOARD_HTML_H
+<body><main class="app-shell">
+<aside class="sidebar"><div class="brand"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.4"><path d="M5 20V9l6 3V7l8 5v8H5ZM7 9V3h3v8M8 16h2m3 0h2m2 0h1"/></svg></span><div><strong>SIMPAS</strong><small>BOILER CONTROL</small></div></div><div><p class="nav-label">WORKSPACE</p>
+<nav class="tabs" aria-label="Halaman dashboard">
+<button data-tab="monitor" class="active" aria-current="page"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="13" rx="1"/><path d="M8 21h8m-4-4v4M6 12l3-3 3 3 5-5"/></svg>Monitor</button>
+<button data-tab="trends"><svg viewBox="0 0 24 24"><path d="M4 3v17h17M7 15l4-6 4 3 5-7"/></svg>Tren & riwayat</button>
+<button data-tab="events"><svg viewBox="0 0 24 24"><path d="M12 3 2 20h20L12 3Zm0 6v5m0 3v.1"/></svg>Alarm & kejadian</button>
+<button data-tab="config"><svg viewBox="0 0 24 24"><path d="M5 3v18M12 3v18M19 3v18M2 8h6m1 8h6m1-10h6"/></svg>Pengaturan</button>
+<button data-tab="diagnostics"><svg viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="1"/><path d="M9 2v3m6-3v3M9 19v3m6-3v3M2 9h3m-3 6h3m14-6h3m-3 6h3M9 9h6v6H9Z"/></svg>Sistem</button>
+</nav></div><div class="sidebar-bottom"><div class="system-label"><i></i> MASTER / ESP32-S3</div><a href="https://github.com/riezky-gitH/SIMPAS-BOILER" target="_blank" rel="noopener">Guidebook ↗</a></div></aside>
+<div class="workspace"><header class="topbar"><div class="station"><strong>BOILER STATION</strong></div><div class="top-status"><span id="overall" class="status warn">MENUNGGU</span><small id="clock" class="muted">--:--:--</small></div></header>
+<div class="work-content"><div class="section-heading"><div><h1 id="pageTitle">Monitor proses</h1><div id="connection" class="sub">Menunggu koneksi master</div></div><div class="access"><button id="audioToggle" aria-pressed="false">Audio AKTIFKAN</button><details><summary id="role">Akses operator</summary><div class="access-popover"><label for="token">Token operator</label><input id="token" type="password" inputmode="numeric" autocomplete="off" placeholder="Kode 6 digit"><button id="saveToken" class="primary">Simpan akses</button></div></details></div></div>
+<div id="storageNotice" class="notice" role="status" hidden></div>
+<div id="processAlerts" class="process-alerts" role="status" aria-live="polite" aria-atomic="true" hidden></div>
+<section class="section" id="monitor" aria-label="Monitor proses"><div class="overview-stats"><div><small>UNIT TERHUBUNG</small><strong id="connectedCount">--</strong><span class="unit">/ 02</span></div><div><small>UNIT ALARM</small><strong id="alarmCount">--</strong><span class="unit">unit</span></div><div><small>TEKANAN PUNCAK</small><strong id="pressurePeak">--</strong><span class="unit">bar</span></div><div><small>SUHU PUNCAK</small><strong id="tempPeak">--</strong><span class="unit">°C</span></div></div><div class="grid" id="chambers"></div>
+<div class="global"><div><strong id="globalTitle">Purge bersama</strong><small>Boiler 01 + 02</small></div><div class="actions"><button class="primary" data-node="0" data-action="GLOBAL,1">Aktifkan purge</button><button data-node="0" data-action="GLOBAL,0">Lepas purge</button><button data-node="0" data-action="MUTE">Silence semua</button></div></div></section>
+<section class="section" id="trends" hidden><div class="bar spread"><select id="window" aria-label="Rentang grafik"><option value="300">5 menit terakhir</option><option value="900">15 menit terakhir</option><option value="3600">60 menit terakhir</option></select><div class="actions"><button id="download">Unduh CSV</button><button id="usbRefresh">Refresh USB</button></div></div><div class="stats" id="stats"></div><div class="grid"><div class="card"><div class="chart-head"><h3>Tekanan <span class="muted">/ bar</span></h3><div class="chart-legend"><span><i></i>B1</span><span><i class="b2"></i>B2</span><span><i class="limit"></i>Batas</span></div></div><canvas id="pressureChart" class="chart" aria-label="Grafik tekanan boiler"></canvas></div><div class="card"><div class="chart-head"><h3>Suhu <span class="muted">/ °C</span></h3><div class="chart-legend"><span><i></i>B1</span><span><i class="b2"></i>B2</span><span><i class="limit"></i>Batas</span></div></div><canvas id="tempChart" class="chart" aria-label="Grafik suhu boiler"></canvas></div></div><p id="retention" class="muted stack"></p></section>
+<section class="section" id="events" hidden><div class="grid"><div class="card"><h2>Alarm aktif</h2><div id="activeAlarms"></div></div><div class="card"><h2>Insiden terakhir</h2><div id="lastAlarms"></div></div></div><div class="card stack"><div class="bar spread"><h2>Log kejadian</h2><button id="exportEvents">Unduh CSV</button></div><div class="table-wrap"><table><thead><tr><th>WAKTU</th><th>UNIT</th><th>KEJADIAN</th><th>DETAIL</th></tr></thead><tbody id="eventRows"></tbody></table></div></div></section>
+<section class="section" id="config" hidden><div class="grid config-grid"><form class="card" id="configForm"><h2>Batas alarm</h2><label>Unit<select id="configNode"><option value="1">Boiler 01</option><option value="2">Boiler 02</option></select></label><div class="grid"><label>Tekanan · bar<input id="setP" type="number" min="0.5" max="10" step="0.1" required></label><label>Suhu · °C<input id="setT" type="number" min="50" max="300" step="1" required></label></div><div class="actions"><button type="button" id="knobP">Knob tekanan</button><button type="button" id="knobT">Knob suhu</button></div><p id="effectiveConfig" class="muted stack"></p><label class="check"><input type="checkbox" id="liveMode">Mode LIVE — sensor REAL</label><label class="check"><input type="checkbox" id="tripLatch" checked>Tahan trip hingga reset</label><details><summary>Kalibrasi sensor</summary><label>Referensi ADC · mV<input id="vcc" type="number" min="4500" max="5500"></label><label>Output 0 bar · mV<input id="zero" type="number" min="250" max="1000"></label><label>Span 0–10 bar · mV<input id="span" type="number" min="2500" max="4500"></label></details><button id="applyConfig" class="primary" type="submit">Terapkan pengaturan</button></form><div class="card"><h2>Kontrol & waktu</h2><ul class="operation-notes"><li><strong>Silence</strong> · Matikan suara alarm aktif.</li><li><strong>ACK</strong> · Akui alarm.</li><li><strong>Reset trip</strong> · Memerlukan kondisi aman selama 2 detik.</li><li><strong>Lepas manual</strong> · Alarm atau purge lain dapat mempertahankan relay ON.</li></ul><button id="syncTime">Sinkronkan jam</button><p class="muted stack">Indikator relay menunjukkan output listrik. Posisi katup belum diukur.</p></div></div></section>
+<section class="section" id="diagnostics" hidden><div class="diagnostic-grid" id="systemStats"></div><details class="card stack"><summary>Data diagnostik lengkap</summary><pre id="diagnosticText">Menunggu data...</pre></details></section>
+<footer class="system-footer"><span>SIMPAS / SCADA</span><span>Politeknik Elektronika Negeri Surabaya</span></footer></div></div>
+</main><div id="toast" role="status" hidden></div>
+<script>
+'use strict';
+const FRESH_MS=4000,POLL_MS=250;
+const State={data:null,lastGood:0,token:sessionStorage.getItem('simpasToken')||'',tab:'monitor',history:[],events:[],exporting:false,configLoaded:false,failures:0,audio:sessionStorage.getItem('simpasAudio')!=='off',audioContext:null,audioVoice:null,lastBeep:0,alertKey:'',clockAttempt:0,clockBusy:false};
+const $=id=>document.getElementById(id);
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function validValue(n){return typeof n==='number'&&Number.isFinite(n);}
+function nearLimits(n){const c=n?.config;return {pressure:!!(n?.quality_p==='GOOD'&&validValue(n.pressure)&&validValue(c?.pressure)&&n.pressure>=c.pressure-0.5&&n.pressure<c.pressure),temp:!!(n?.quality_t==='GOOD'&&validValue(n.temp)&&validValue(c?.temp)&&n.temp>=c.temp-5&&n.temp<c.temp)};}
+function processState(n){if(!n?.connected)return 'OFFLINE';if(n.state==='FAULT'||(n.causes&28)||n.quality_p==='FAULT'||n.quality_t==='FAULT')return 'FAULT';if(n.causes||(n.state==='ALARM'&&!n.trip))return 'ALARM';if(n.state==='STARTUP')return 'STARTUP';const near=nearLimits(n);return near.pressure||near.temp||n.state==='WARNING'?'WARNING':'NORMAL';}
+function stateLabel(state){return ({WARNING:'WASPADA',FAULT:'GANGGUAN',STARTUP:'MENUNGGU'})[state]||state;}
+function alarmActive(n){return n?.connected&&['ALARM','FAULT'].includes(processState(n));}
+function overallState(data,fresh=true){if(!fresh||!data)return 'OFFLINE';const ns=[data.slave1,data.slave2];if(ns.some(alarmActive))return 'ALARM';if(ns.some(n=>!n?.connected))return 'DEGRADED';if(ns.some(n=>processState(n)==='STARTUP'))return 'STARTUP';return ns.some(n=>processState(n)==='WARNING')?'WARNING':'NORMAL';}
+function renderProcessAlerts(d,fresh){const alerts=[];if(fresh&&d)for(const [i,n]of [d.slave1,d.slave2].entries()){const status=processState(n);if(!['ALARM','FAULT','WARNING'].includes(status))continue;const warning=status==='WARNING',near=nearLimits(n),detail=warning?[near.pressure?'Tekanan mendekati batas':'',near.temp?'Suhu mendekati batas':''].filter(Boolean).join(' · ')||'Pembacaan mendekati batas':n.causes?causeLabel(n.causes):'Gangguan pembacaan sensor';alerts.push({id:i+1,warning,detail});}
+ const key=JSON.stringify(alerts);if(key!==State.alertKey){$('processAlerts').innerHTML=alerts.map(a=>`<div class="process-notice ${a.warning?'warning':'alarm'}"><strong>BOILER 0${a.id}</strong><span class="notice-state">${a.warning?'WASPADA':'ALARM'}</span><span>${escapeHtml(a.detail)}</span></div>`).join('');State.alertKey=key;}$('processAlerts').hidden=!alerts.length;}
+
+function chartValue(row,node,temp){const base=node?7:3,flags=row[base+2],connected=row[base+3],v=row[base+(temp?1:0)];return connected&&!(flags&(temp?8:4))&&v>=0?v/(temp?10:100):null;}
+function recordAge(row,latest){if(row[1]===latest[1])return latest[2]>=row[2]?latest[2]-row[2]:null;return row[0]&&latest[0]>=row[0]?latest[0]-row[0]:null;}
+function fmtTime(epoch,up,boot){return epoch?new Date(epoch*1000).toLocaleString('id-ID',{timeZone:'Asia/Jakarta',hour12:false})+' WIB':`boot ${boot} · U+${up}s`;}
+function toast(message){$('toast').textContent=message;$('toast').hidden=false;clearTimeout(toast.timer);toast.timer=setTimeout(()=>$('toast').hidden=true,5000);}
+function usbStateText(state){return ({READY:'Siap',FS_UNAVAILABLE:'Penyimpanan belum siap',RECOVERING:'Memuat riwayat',EJECTED:'Sudah dieject',NO_HOST:'USB tidak tersambung',SNAPSHOT_RETRY:'Mencoba lagi',WAITING:'Menunggu media',STARTING:'Memulai USB',INIT_ERROR:'USB error',DISABLED:'Nonaktif'})[state]||'--';}
+function causeLabel(mask){return [[1,'P tinggi'],[2,'T tinggi'],[4,'Sensor P'],[8,'Sensor T'],[16,'SIM / LIVE']].filter(([bit])=>mask&bit).map(([,label])=>label).join(', ')||'Tidak ada alarm';}
+function source(n){return n&&(n.src_p==='SIM'||n.src_t==='SIM')?'SIM / HYBRID':'REAL';}
+function card(id){return `<article class="card unit-card offline" id="card${id}"><header class="unit-head"><div class="unit-name"><span class="unit-index">0${id}</span><h2>Boiler ${String(id).padStart(2,'0')}</h2></div><span class="badge warn" id="state${id}">MENUNGGU</span></header><div class="metrics"><div class="metric"><small>TEKANAN</small><div class="value"><span id="p${id}">--</span><span class="unit">bar</span></div><div class="meter"><i id="pm${id}"></i></div><p id="ps${id}">--</p></div><div class="metric temp"><small>SUHU</small><div class="value"><span id="t${id}">--</span><span class="unit">°C</span></div><div class="meter"><i id="tm${id}"></i></div><p id="ts${id}">--</p></div></div><div class="process" aria-hidden="true"><svg viewBox="0 0 420 145"><path class="pipe" d="M24 103h106m74-64V21h149"/><path class="thin" d="m348 17 5 4-5 4M69 55v48m60-41H82m197 39h48"/><rect class="vessel" x="130" y="39" width="148" height="89" rx="22"/><path class="coil" d="M149 106h109m-109 5h109m-109 5h109"/><path class="thin" d="M153 128v9m101-9v9m-111 0h20m81 0h20"/><circle class="tag" cx="69" cy="47" r="13"/><text x="69" y="50" text-anchor="middle">PI</text><circle class="tag" cx="340" cy="101" r="13"/><text x="340" y="104" text-anchor="middle">TI</text><text x="204" y="64" text-anchor="middle">BOILER</text><text x="204" y="91" text-anchor="middle" class="unit-number">0${id}</text><text x="24" y="119">INLET</text><text x="304" y="13">OUTLET</text><path class="thin" d="m275 13 12 8-12 8Zm24 0-12 8 12 8Z"/><circle class="output-lamp" cx="287" cy="5" r="3"/></svg></div><div class="unit-meta"><div class="row"><span class="muted">Output relay</span><strong id="relay${id}">UNKNOWN</strong></div><div class="row"><span class="muted">Alarm</span><span id="alarm${id}">--</span></div><div class="row"><span class="muted">Perintah</span><span id="cmd${id}">--</span></div></div><div class="unit-actions"><button class="danger" data-node="${id}" data-action="PURGE,1">Manual ON</button><button data-node="${id}" data-action="PURGE,0">Lepas manual</button><button data-node="${id}" data-action="RESET">Reset trip</button><button data-node="${id}" data-action="MUTE">Silence</button><button data-node="${id}" data-action="ACK">ACK</button><button data-node="${id}" data-action="TEST">Tes indikator</button></div></article>`;}
+$('chambers').innerHTML=card(1)+card(2);
+function renderChamber(id,n,fresh){const online=!!(fresh&&n?.connected),state=online?processState(n):'OFFLINE',alarm=online&&alarmActive(n),warning=online&&state==='WARNING';$('card'+id).classList.toggle('alarm',alarm);$('card'+id).classList.toggle('warning',warning);$('card'+id).classList.toggle('offline',!online);$('card'+id).classList.toggle('relay-on',online&&n.relay==='ON');$('state'+id).textContent=stateLabel(state);$('state'+id).className='badge '+(alarm?'bad':online?(warning?'warn':'good'):'warn');
+ for(const [key,value,quality,max]of[['p',n?.pressure,n?.quality_p,10],['t',n?.temp,n?.quality_t,300]]){const good=online&&quality==='GOOD'&&validValue(value);$(key+id).textContent=good?value.toFixed(key==='p'?2:1):online&&quality==='FAULT'?'FAULT':'--';$(key+'m'+id).style.width=good?Math.min(100,value/max*100)+'%':'0%';$(key+'s'+id).textContent=online?`${key==='p'?n.src_p:n.src_t} / batas ${key==='p'?n.config.pressure.toFixed(1)+' bar':n.config.temp.toFixed(0)+' °C'}`:'Tidak ada data';}
+ $('relay'+id).textContent=online?`${n.relay}${n.trip?' · TRIP':''}${n.global?' · GLOBAL':''}${n.local?' · LOCAL':''}${n.remote?' · REMOTE':''}`:'UNKNOWN';
+ $('alarm'+id).textContent=!online?'UNKNOWN':n.causes?`${n.cause_text} · ${n.buzzer?'BERBUNYI':'SILENCED'}`:'Tidak ada alarm';
+ $('cmd'+id).textContent=n&&n.command_status!=='NONE'?n.command_status:'--';
+}
+function render(fresh=Date.now()-State.lastGood<FRESH_MS){const d=State.data,status=overallState(d,fresh);$('overall').textContent=stateLabel(status);renderProcessAlerts(d,fresh);syncAlarmAudio(fresh);renderAudioButton();$('overall').className='status '+(status==='NORMAL'?'good':status==='ALARM'?'bad':'warn');$('connection').textContent=fresh&&d?`${[d.slave1,d.slave2].filter(n=>n.connected).length}/2 unit terhubung`:'Koneksi master terputus';renderChamber(1,d?.slave1,fresh);renderChamber(2,d?.slave2,fresh);
+ $('role').textContent=State.token?'Token tersimpan':'Akses operator';document.querySelectorAll('[data-action]').forEach(b=>{const n=+b.dataset.node;b.disabled=!State.token||!fresh||!d||State.exporting||(n>0&&!(fresh&&d?.['slave'+n]?.connected));});
+ for(const id of ['download','usbRefresh','syncTime','exportEvents','applyConfig'])$(id).disabled=!State.token||!fresh||State.exporting;
+ const ns=d?[d.slave1,d.slave2]:[];
+ $('connectedCount').textContent=fresh&&d?String(ns.filter(n=>n.connected).length).padStart(2,'0'):'--';
+ $('alarmCount').textContent=fresh&&d?String(ns.filter(alarmActive).length).padStart(2,'0'):'--';
+ for(const [id,key,digits]of[['pressurePeak','pressure',2],['tempPeak','temp',1]]){const vals=fresh&&d?(d.history.peaks||[]).map(p=>p[key]).filter(validValue):[];$(id).textContent=vals.length?Math.max(...vals).toFixed(digits):'--';}
+ if(!d)return;const h=d.history;$('globalTitle').textContent=fresh&&d.purge_all?'PURGE BERSAMA AKTIF':'Purge bersama';$('clock').textContent=d.epoch?`WIB · ${new Date(d.epoch*1000).toLocaleTimeString('id-ID',{timeZone:'Asia/Jakarta',hour12:false})}`:`Jam belum sinkron · U+${d.uptime}s`;
+ const problems=[];if(!d.epoch)problems.push('Jam belum sinkron. Masukkan token operator atau pilih Sinkronkan jam.');if(!h.mounted)problems.push('Penyimpanan belum siap. Periksa Sistem / guidebook.');if(!h.ready)problems.push('Memulihkan riwayat.');if(!h.psram)problems.push('PSRAM tidak terdeteksi. Periksa pengaturan OPI PSRAM.');if(h.write_error)problems.push('Gagal menyimpan riwayat.');if(h.paused_by_snapshot)problems.push('Penyimpanan tertahan. Eject drive USB.');if(h.dropped)problems.push(`${h.dropped} rekaman terlewat.`);$('storageNotice').hidden=!problems.length;$('storageNotice').textContent=problems.join(' ');
+ $('stats').innerHTML=[['Flash terpakai',`${(h.flash_bytes/1048576).toFixed(2)} MiB`],['Budget riwayat',`${(h.budget_bytes/1048576).toFixed(0)} MiB`],['Pending RAM',`~${h.pending_est_bytes} B`],['Flush terakhir',`${Math.floor(h.last_flush_age_ms/1000)} s lalu`]].map(([a,b])=>`<div><small class="muted">${a}</small><strong>${b}</strong></div>`).join('');
+ $('retention').textContent=`Log 5 detik + kejadian threshold. Perkiraan retensi ${(h.estimated_normal_days??h.budget_bytes/100*5/86400).toFixed(1)} hari; berkurang jika banyak kejadian.`;
+ $('activeAlarms').innerHTML=[d.slave1,d.slave2].map((n,i)=>`<div class="row"><span>B${i+1} / ${escapeHtml(fresh&&n.connected?stateLabel(processState(n)):'OFFLINE')}</span><span>${escapeHtml(fresh&&n.connected?(n.causes?n.cause_text:'Tidak ada alarm'):'Data terputus')}</span></div>`).join('');
+ $('lastAlarms').innerHTML=h.alarms.length?h.alarms.map(a=>`<div class="row"><span>B${a.node} / ${escapeHtml(causeLabel(a.causes))}</span><small>${escapeHtml(fmtTime(a.epoch,a.uptime,a.boot))}</small></div>`).join(''):'<span class="muted">Belum ada insiden.</span>';
+ $('systemStats').innerHTML=[['MASTER',[['Uptime',d.uptime+' s'],['USB history',usbStateText(h.usb_status)],['Jeda UART maks',(d.max_uart_gap_ms??0)+' ms'],['RAM bebas',(d.free_heap/1024).toFixed(0)+' KB'],['PSRAM bebas',(d.free_psram/1048576).toFixed(1)+' MB']]],...ns.map((n,i)=>['BOILER 0'+(i+1),[['Link',fresh&&n.connected?'ONLINE':'OFFLINE'],['Paket',n.packets],['CRC error',n.crc_errors],['Poll timeout',n.poll_timeouts??0],['Putus koneksi',n.disconnects??0]]])].map(([title,rows])=>`<div class="card"><h3>${title}</h3>${rows.map(([key,value])=>`<div class="row"><span class="muted">${key}</span><strong>${escapeHtml(value??'--')}</strong></div>`).join('')}</div>`).join('');
+ $('diagnosticText').textContent=JSON.stringify({boot:d.boot,uptime:d.uptime,reset_reason:d.reset_reason,max_uart_gap_ms:d.max_uart_gap_ms,io_task:d.io_task,free_heap:d.free_heap,free_psram:d.free_psram,history:h,nodes:[d.slave1,d.slave2].map(n=>({connected:n.connected,age_ms:n.age_ms,packets:n.packets,crc_errors:n.crc_errors,slave_errors:n.slave_errors,boot:n.boot,raw_adc:n.raw_adc,command:n.command_status}))},null,2);
+ if(!State.configLoaded&&fresh&&d.slave1.connected)loadConfig();}
+// A single HTTP transaction at a time; the ESP32 WebServer has one client slot.
+let apiTail=Promise.resolve();
+function api(path,method='GET',payload,timeout=3000){
+ const perform=async()=>{const c=new AbortController(),timer=setTimeout(()=>c.abort(),timeout);
+  try{const headers={};if(State.token)headers.Authorization='Bearer '+State.token;if(payload!==undefined)headers['Content-Type']='application/json';
+   const r=await fetch(path,{method,headers,body:payload===undefined?undefined:JSON.stringify(payload),signal:c.signal,cache:'no-store'});
+   if(!r.ok){let error;try{error=(await r.json()).error;}catch{}throw new Error(error||`HTTP ${r.status}`);}
+   const bytes=await r.arrayBuffer();return new Response(bytes,{status:r.status,headers:r.headers});
+  }finally{clearTimeout(timer);}};
+ const result=apiTail.then(perform,perform);apiTail=result.catch(()=>{});return result;
+}
+async function autoSyncClock(d){
+ if(!State.token||State.exporting||State.clockBusy||(d.epoch&&Math.abs(Date.now()/1000-d.epoch)<=3))return;
+ const now=Date.now();if(State.clockAttempt&&now-State.clockAttempt<30000)return;
+ State.clockAttempt=now;State.clockBusy=true;
+ try{await api('/api/time','POST',{epoch:Math.floor(Date.now()/1000)});}catch{}finally{State.clockBusy=false;}
+}
+async function updateTelemetry(){
+ const started=Date.now();
+ try{const d=await(await api('/api/data')).json();State.data=d;State.lastGood=Date.now();State.failures=0;render(true);void autoSyncClock(d);}
+ catch{State.failures++;render();}
+ finally{const delay=State.failures?Math.min(4000,500*2**Math.min(State.failures,3)):Math.max(50,POLL_MS-(Date.now()-started));setTimeout(updateTelemetry,delay);}
+}
+async function sendCommand(node,action){if((action==='GLOBAL,0'||action==='RESET')&&!confirm('Permintaan ini hanya diterapkan jika kondisi aman. Lanjutkan?'))return;try{const d=await(await api('/api/command','POST',{node,action})).json();toast('Perintah '+d.status+'. Tunggu konfirmasi unit.');}catch(e){toast('Perintah tidak berhasil diajukan: '+e.message);}}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-action]');if(b&&!b.disabled)sendCommand(+b.dataset.node,b.dataset.action);});
+document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>{State.tab=b.dataset.tab;$('pageTitle').textContent=({monitor:'Monitor proses',trends:'Tren & riwayat',events:'Alarm & kejadian',config:'Pengaturan',diagnostics:'Sistem'})[State.tab];document.querySelectorAll('[data-tab]').forEach(x=>{if(x===b)x.setAttribute('aria-current','page');else x.removeAttribute('aria-current');});document.querySelectorAll('.section').forEach(s=>s.hidden=s.id!==State.tab);document.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('active',x===b));drawCharts();}));
+$('saveToken').onclick=()=>{State.token=$('token').value.trim();sessionStorage.setItem('simpasToken',State.token);render();toast('Token tersimpan. Akses diverifikasi saat mengirim perintah.');};$('token').value=State.token;
+function audibleAlarm(n){return alarmActive(n)&&n.buzzer&&(!Number.isInteger(n.muted)||!Number.isInteger(n.causes)||(n.causes&~n.muted)!==0);}
+function renderAudioButton(){const running=State.audio&&State.audioContext?.state==='running';$('audioToggle').textContent=State.audio?(running?'Audio ON':'Audio AKTIFKAN'):'Audio OFF';$('audioToggle').setAttribute('aria-pressed',String(!!running));}
+function stopAlarmAudio(){const voice=State.audioVoice;if(voice){State.audioVoice=null;try{voice.osc.stop();}catch{}try{voice.osc.disconnect();voice.gain.disconnect();}catch{}}State.lastBeep=0;}
+function alarmPulse(){const a=State.audioContext;if(!a||a.state!=='running')return;const o=a.createOscillator(),g=a.createGain(),t=a.currentTime;o.type='triangle';for(let i=0;i<4;i++)o.frequency.setValueAtTime(i%2?980:740,t+i*.2);g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.07,t+.025);g.gain.setValueAtTime(.07,t+.77);g.gain.linearRampToValueAtTime(0,t+.82);o.connect(g);g.connect(a.destination);const voice={osc:o,gain:g};State.audioVoice=voice;o.onended=()=>{o.disconnect();g.disconnect();if(State.audioVoice===voice)State.audioVoice=null;};o.start(t);o.stop(t+.84);State.lastBeep=Date.now();}
+function syncAlarmAudio(fresh){const d=State.data,active=State.audio&&fresh&&d&&[d.slave1,d.slave2].some(audibleAlarm);if(!active){stopAlarmAudio();return;}if(State.audioContext?.state==='running'&&(!State.lastBeep||Date.now()-State.lastBeep>=1600)){try{alarmPulse();}catch{stopAlarmAudio();}}}
+async function activateAudio(){if(!State.audio)return;try{if(!State.audioContext)State.audioContext=new (window.AudioContext||window.webkitAudioContext)();await State.audioContext.resume();syncAlarmAudio(Date.now()-State.lastGood<FRESH_MS);}catch{}renderAudioButton();}
+function unlockAudio(e){if(e.isTrusted===false||e.target?.closest?.('#audioToggle'))return;void activateAudio();}
+document.addEventListener('pointerdown',unlockAudio,{once:true});document.addEventListener('keydown',unlockAudio,{once:true});
+$('audioToggle').onclick=async()=>{if(State.audio&&State.audioContext?.state==='running'){State.audio=false;stopAlarmAudio();}else{State.audio=true;await activateAudio();}sessionStorage.setItem('simpasAudio',State.audio?'on':'off');renderAudioButton();};
+
+function loadConfig(){const n=State.data?.['slave'+$('configNode').value];if(!n?.connected)return;const c=n.config;$('setP').value=c.pressure;$('setT').value=c.temp;$('liveMode').checked=!!c.live;$('tripLatch').checked=!!c.latch;$('zero').value=c.zero_mv;$('span').value=c.span_mv;$('vcc').value=c.vcc_mv;$('effectiveConfig').textContent=`Efektif: ${c.pressure} bar / ${c.temp} °C · versi ${c.version}`;State.configLoaded=true;}
+$('configNode').onchange=loadConfig;$('knobP').onclick=()=>{if(State.data)$('setP').value=State.data.knob_pressure;};$('knobT').onclick=()=>{if(State.data)$('setT').value=State.data.knob_temp;};
+$('configForm').onsubmit=async e=>{e.preventDefault();const p={node:+$('configNode').value,pressure:+$('setP').value,temp:+$('setT').value,live:+$('liveMode').checked,latch:+$('tripLatch').checked,zero_mv:+$('zero').value,span_mv:+$('span').value,vcc_mv:+$('vcc').value};if(!confirm(`Terapkan B${p.node}: ${p.pressure} bar / ${p.temp} °C, ${p.live?'LIVE':'DEMO'}, latch ${p.latch?'ON':'OFF'}?`))return;try{await api('/api/config','POST',p);toast('Konfigurasi QUEUED. Nilai efektif berubah setelah ACK slave.');}catch(x){toast(x.message);}};
+$('syncTime').onclick=async()=>{try{await api('/api/time','POST',{epoch:Math.floor(Date.now()/1000)});toast('Jam master disinkronkan.');}catch(e){toast(e.message);}};
+async function refreshAux(){
+ if(!State.exporting&&State.data&&Date.now()-State.lastGood<FRESH_MS){try{
+  if(State.tab==='trends'){State.history=(await(await api('/api/history?seconds='+$('window').value,'GET',undefined,5000)).json()).records;drawCharts();}
+  else if(State.tab==='events'){const d=await(await api('/api/events')).json();State.events=d.events;$('eventRows').innerHTML=d.events.slice().reverse().map(e=>`<tr><td>${escapeHtml(fmtTime(e.epoch,e.uptime,e.boot))}</td><td>${e.node?'B'+e.node:'MASTER'}</td><td>${escapeHtml(e.type)}</td><td>${escapeHtml(e.detail)}</td></tr>`).join('');}
+ }catch{}}
+ setTimeout(refreshAux,5000);
+}
+$('window').onchange=()=>{State.history=[];drawCharts();};
+function drawChart(id,temp){const canvas=$(id);if(canvas.parentElement.hidden||!canvas.clientWidth)return;const w=canvas.clientWidth,h=250,dpr=window.devicePixelRatio||1;canvas.width=w*dpr;canvas.height=h*dpr;const c=canvas.getContext('2d');c.scale(dpr,dpr);const pad={l:45,r:14,t:15,b:30},pw=w-pad.l-pad.r,ph=h-pad.t-pad.b,rows=State.history;let max=temp?300:10;if(temp)for(const r of rows)for(let n=0;n<2;n++){const v=chartValue(r,n,true);if(v!==null)max=Math.max(max,Math.ceil(v/100)*100);}c.font='11px system-ui';c.strokeStyle='#dededb';c.fillStyle='#77777b';for(let i=0;i<=5;i++){const y=pad.t+ph*i/5;c.beginPath();c.moveTo(pad.l,y);c.lineTo(w-pad.r,y);c.stroke();c.fillText((max*(5-i)/5).toFixed(temp?0:1),4,y+4);}if(rows.length<2)return;
+ const latest=rows.at(-1),span=Math.max(1,...rows.map(r=>recordAge(r,latest)??0));const x=i=>pad.l+pw*(1-(recordAge(rows[i],latest)??span)/span),y=v=>pad.t+ph*(1-Math.min(v/max,1));for(let n=0;n<2;n++){c.strokeStyle=n?'#67676b':'#800020';c.lineWidth=1.8;c.setLineDash(n?[6,3]:[]);c.beginPath();let pen=false;for(let i=0;i<rows.length;i++){const value=chartValue(rows[i],n,temp);if(value===null){pen=false;continue;}if(i&&(rows[i][1]!==rows[i-1][1]||Math.abs((recordAge(rows[i],latest)??0)-(recordAge(rows[i-1],latest)??0))>Math.max(5,+$('window').value/720)*2))pen=false;if(pen)c.lineTo(x(i),y(value));else c.moveTo(x(i),y(value));pen=true;}c.stroke();c.setLineDash([]);const node=State.data?.['slave'+(n+1)];if(Date.now()-State.lastGood<FRESH_MS&&node?.connected){const th=temp?node.config.temp:node.config.pressure;c.setLineDash([4,5]);c.beginPath();c.moveTo(pad.l,y(th));c.lineTo(w-pad.r,y(th));c.stroke();c.setLineDash([]);}}
+ const f=rows[0],l=rows.at(-1);c.fillStyle='#77777b';c.fillText(f[0]?new Date(f[0]*1000).toLocaleTimeString('id-ID',{timeZone:'Asia/Jakarta',hour12:false}):'U+'+f[2]+'s',pad.l,h-7);c.textAlign='right';c.fillText(l[0]?new Date(l[0]*1000).toLocaleTimeString('id-ID',{timeZone:'Asia/Jakarta',hour12:false}):'U+'+l[2]+'s',w-pad.r,h-7);}
+function drawCharts(){if(State.tab==='trends'){drawChart('pressureChart',false);drawChart('tempChart',true);}}window.addEventListener('resize',drawCharts);
+function saveBlob(blob,name){const u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(u),30000);}
+$('download').onclick=async()=>{let ticket;try{State.exporting=true;render();toast('Menyiapkan snapshot history...');ticket=await(await api('/api/export/start','POST',{},10000)).json();const parts=[];for(let p=0;p<ticket.bytes;){const r=await api(`/api/export/chunk?id=${ticket.id}&offset=${p}`,'GET',undefined,10000),chunk=await r.arrayBuffer();if(!chunk.byteLength)throw new Error('Ekspor terhenti');parts.push(chunk);p+=chunk.byteLength;toast(`Ekspor ${Math.round(p/ticket.bytes*100)}%`);}saveBlob(new Blob(parts,{type:'text/csv;charset=utf-8'}),'history_boiler.csv');toast('CSV snapshot berhasil diunduh.');}catch(e){toast('Ekspor gagal: '+e.message);}finally{if(ticket)try{await api('/api/export/end','POST',{id:ticket.id});}catch{}State.exporting=false;render();}};
+$('usbRefresh').onclick=async()=>{if(!confirm('Eject drive USB lebih dahulu. Perbarui snapshot sekarang?'))return;try{await api('/api/usb-refresh','POST',{});toast('Snapshot USB dijadwalkan. Sambungkan ulang jika OS masih menyimpan cache.');}catch(e){toast(e.message);}};
+$('exportEvents').onclick=async()=>{try{const r=await api('/api/events.csv','GET',undefined,15000);saveBlob(await r.blob(),'events_boiler.csv');toast('Arsip event flash diunduh.');}catch(e){toast(e.message);}};
+render(false);updateTelemetry();refreshAux();setInterval(()=>{if(Date.now()-State.lastGood>=FRESH_MS)render(false);},500);
+</script></body></html>
+
+)SCADA_HTML";

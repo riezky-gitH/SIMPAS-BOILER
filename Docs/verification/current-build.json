@@ -1,0 +1,124 @@
+{
+  "date": "2026-10-27",
+  "firmware": "v3",
+  "hardware": "ESP32-S3 N16R8 / 2x ATmega328P",
+  "profiles": [
+    {
+      "target": "master",
+      "flash_compiler_bytes": 1224839,
+      "sram_global_bytes": 134264,
+      "build_options": "esp32:esp32:esp32s3:FlashSize=16M,PSRAM=opi,FlashMode=qio,USBMode=default,CDCOnBoot=cdc,MSCOnBoot=default,DFUOnBoot=default"
+    },
+    {
+      "target": "slave1",
+      "flash_compiler_bytes": 19832,
+      "sram_global_bytes": 1287,
+      "build_options": "arduino:avr:nano:cpu=atmega328old"
+    },
+    {
+      "target": "slave2",
+      "flash_compiler_bytes": 19832,
+      "sram_global_bytes": 1287,
+      "build_options": "arduino:avr:nano:cpu=atmega328old"
+    }
+  ],
+  "checks": {
+    "javascript": {
+      "cases": 31,
+      "result": "passed"
+    },
+    "python": {
+      "cases": 8,
+      "result": "passed"
+    },
+    "native_cpp": {
+      "suites": 7,
+      "result": "passed"
+    },
+    "builds": {
+      "targets": [
+        "master",
+        "slave1",
+        "slave2"
+      ],
+      "result": "passed",
+      "compiled_headers_match_sources": true
+    }
+  },
+  "dashboard_browser": {
+    "desktop_viewports": [
+      "1024x600",
+      "1280x720",
+      "1366x768",
+      "1536x864",
+      "1920x1080",
+      "2560x1080"
+    ],
+    "monitor_fits_viewport": true,
+    "mobile_width": 390,
+    "mobile_horizontal_overflow": false,
+    "audio_toggle": "AKTIFKAN / ON / OFF checked, no console errors",
+    "data_source": "local simulated fixture"
+  },
+  "demo": {
+    "first_alarm_from_zero_max_ms": 18000,
+    "node_seed_cases": 80,
+    "thresholds": "4 bar / 160 C",
+    "result_type": "native simulation"
+  },
+  "hardware_scope": "Software and build verification only. No new upload, physical calibration, power-loss or relay-coil test is claimed.",
+  "firmware_source_sha256": {
+    "Firmware/Master_ESP32S3/Broadcast.h": "92de95dc887f0ce055b8143be9efc6abb52dd6fb1bd342804189e611dd6c4f35",
+    "Firmware/Master_ESP32S3/Button.h": "7da258adafbf46b6b0cfa1969d9ab2ee14b57a62e73bf422d4f7028db7d64f99",
+    "Firmware/Master_ESP32S3/Control.h": "effb08b925ae92abfa9a4a4440e86937a7eb5d60a51c0ab9c13dbe51e2d6816f",
+    "Firmware/Master_ESP32S3/dashboard_html.h": "968d4f049dc7f131eb8619718f9f66848e4faa8370aa96d8b8abb4e339eb4b61",
+    "Firmware/Master_ESP32S3/Fat16.h": "c98e9985789b04bff8071a52ffb90a9832362245c803feb898783c8a6b3f5e90",
+    "Firmware/Master_ESP32S3/GuideQr.h": "a194e73654419a1f4214725f16cffbd365507870af27e8a322f76f9d6833ffb9",
+    "Firmware/Master_ESP32S3/History.h": "e7496da7ace965ecb508ce4733c45ce6554e4097093861c313ad79b96d3e8c8a",
+    "Firmware/Master_ESP32S3/HistoryExport.h": "0c98f789c0092bf1ff3dd6da5afde2e6c617d0eb8e55bbe67c0938a0e66a6cdb",
+    "Firmware/Master_ESP32S3/HistoryRecord.h": "2bfd8d1ae9c725acdee563eb4da3f74e9dc0fb7cc7c673e1b98ad03974740fc4",
+    "Firmware/Master_ESP32S3/HistoryTiming.h": "c457eb5a38ececcbf9bdde079a93b0b95492ec70926f0afe1801e29b303549fc",
+    "Firmware/Master_ESP32S3/IndexedFrame.h": "87f4e66e21b801fc96ff64efb4a1e26eb8c0ed4f4dd44de137f63c26f36af4b9",
+    "Firmware/Master_ESP32S3/Master_ESP32S3.ino": "195ff7e516af386397bc70c7f39cdb4e829c7291a0036ad4f2775bdfa4fd27d0",
+    "Firmware/Master_ESP32S3/MasterApp.h": "b17a8810502f2843c531cc0067d6bf209c6dc304cf78c8f8241eb39aaa34ab0b",
+    "Firmware/Master_ESP32S3/MasterScreen.h": "0e3c6724f824f2aa512ed202e710f21c0d8e1dd491b745ca8f9dbe449916fb70",
+    "Firmware/Master_ESP32S3/NetworkConfig.h": "43d8891aeee82be1eb627d865d6e401795060c5cfa6c9ceb9838619369f7d10b",
+    "Firmware/Master_ESP32S3/OfflineUsb.h": "cf9f1656d31759a0818b6e36085c0454811151f61efdd9bd5acc8a1a31be4a16",
+    "Firmware/Master_ESP32S3/partitions.csv": "d9f489b568fce87b140945d9ce2f72c7a6a42ea81f372c905bcadf21c0285614",
+    "Firmware/Master_ESP32S3/Protocol.h": "74cffc9e022bb54f775db2395641b37909c27cace033d0e2846c58257b8490fc",
+    "Firmware/Master_ESP32S3/Secrets.example.h": "8d363b2182c3103f0924cfbc6af9460f4c48504a1ddf76497e4246c6dfd81a2c",
+    "Firmware/Master_ESP32S3/UsbSession.h": "4a1c73086e51c643197d32fd1ddb9680e586f4d06616d353daa15297cd6d28a6",
+    "Firmware/Shared/Broadcast.h": "92de95dc887f0ce055b8143be9efc6abb52dd6fb1bd342804189e611dd6c4f35",
+    "Firmware/Shared/Button.h": "7da258adafbf46b6b0cfa1969d9ab2ee14b57a62e73bf422d4f7028db7d64f99",
+    "Firmware/Shared/Control.h": "effb08b925ae92abfa9a4a4440e86937a7eb5d60a51c0ab9c13dbe51e2d6816f",
+    "Firmware/Shared/DemoSensors.h": "7a4151955033b7e573f8e2258424ffd15d7bc0198e418254dc0659d77a42bc90",
+    "Firmware/Shared/Fat16.h": "c98e9985789b04bff8071a52ffb90a9832362245c803feb898783c8a6b3f5e90",
+    "Firmware/Shared/HistoryExport.h": "0c98f789c0092bf1ff3dd6da5afde2e6c617d0eb8e55bbe67c0938a0e66a6cdb",
+    "Firmware/Shared/HistoryRecord.h": "2bfd8d1ae9c725acdee563eb4da3f74e9dc0fb7cc7c673e1b98ad03974740fc4",
+    "Firmware/Shared/HistoryTiming.h": "c457eb5a38ececcbf9bdde079a93b0b95492ec70926f0afe1801e29b303549fc",
+    "Firmware/Shared/IndexedFrame.h": "87f4e66e21b801fc96ff64efb4a1e26eb8c0ed4f4dd44de137f63c26f36af4b9",
+    "Firmware/Shared/MasterScreen.h": "0e3c6724f824f2aa512ed202e710f21c0d8e1dd491b745ca8f9dbe449916fb70",
+    "Firmware/Shared/Protocol.h": "74cffc9e022bb54f775db2395641b37909c27cace033d0e2846c58257b8490fc",
+    "Firmware/Shared/SlaveUi.h": "ba52f3e0c08baaa73e87b18d43cbc2b254b156924e9dcd2bebe53f0a83c6a639",
+    "Firmware/Shared/UsbSession.h": "4a1c73086e51c643197d32fd1ddb9680e586f4d06616d353daa15297cd6d28a6",
+    "Firmware/Slave1_Nano/Broadcast.h": "92de95dc887f0ce055b8143be9efc6abb52dd6fb1bd342804189e611dd6c4f35",
+    "Firmware/Slave1_Nano/Button.h": "7da258adafbf46b6b0cfa1969d9ab2ee14b57a62e73bf422d4f7028db7d64f99",
+    "Firmware/Slave1_Nano/Control.h": "effb08b925ae92abfa9a4a4440e86937a7eb5d60a51c0ab9c13dbe51e2d6816f",
+    "Firmware/Slave1_Nano/DemoSensors.h": "7a4151955033b7e573f8e2258424ffd15d7bc0198e418254dc0659d77a42bc90",
+    "Firmware/Slave1_Nano/Protocol.h": "74cffc9e022bb54f775db2395641b37909c27cace033d0e2846c58257b8490fc",
+    "Firmware/Slave1_Nano/Slave1_Nano.ino": "ab2387598842068f2af322cdfc8da4e1fa1423f88d973c90e8ae6c94e8487784",
+    "Firmware/Slave1_Nano/SlaveApp.h": "e3dec39e48cbfe041469ea08b15c6da8de0ead29f23cea5cee95127628dadaf5",
+    "Firmware/Slave1_Nano/SlaveUi.h": "ba52f3e0c08baaa73e87b18d43cbc2b254b156924e9dcd2bebe53f0a83c6a639",
+    "Firmware/Slave2_Nano/Broadcast.h": "92de95dc887f0ce055b8143be9efc6abb52dd6fb1bd342804189e611dd6c4f35",
+    "Firmware/Slave2_Nano/Button.h": "7da258adafbf46b6b0cfa1969d9ab2ee14b57a62e73bf422d4f7028db7d64f99",
+    "Firmware/Slave2_Nano/Control.h": "effb08b925ae92abfa9a4a4440e86937a7eb5d60a51c0ab9c13dbe51e2d6816f",
+    "Firmware/Slave2_Nano/DemoSensors.h": "7a4151955033b7e573f8e2258424ffd15d7bc0198e418254dc0659d77a42bc90",
+    "Firmware/Slave2_Nano/Protocol.h": "74cffc9e022bb54f775db2395641b37909c27cace033d0e2846c58257b8490fc",
+    "Firmware/Slave2_Nano/Slave2_Nano.ino": "dc6d778f2e51a9d3a6862bba50d8092cd2f5a0633a1407a1095fa2419322f179",
+    "Firmware/Slave2_Nano/SlaveApp.h": "e3dec39e48cbfe041469ea08b15c6da8de0ead29f23cea5cee95127628dadaf5",
+    "Firmware/Slave2_Nano/SlaveUi.h": "ba52f3e0c08baaa73e87b18d43cbc2b254b156924e9dcd2bebe53f0a83c6a639",
+    "Firmware/SlaveCommon/SlaveApp.h": "e3dec39e48cbfe041469ea08b15c6da8de0ead29f23cea5cee95127628dadaf5",
+    "Firmware/WebDashboard/index.html": "a854bcddf2f7dd7396161acd8ce8de2da160eb0195fb4b533f7544f4038f1ea0"
+  },
+  "hash_normalization": "Text source bytes with CRLF normalized to LF, matching Git text blobs"
+}
